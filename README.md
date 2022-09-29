@@ -3,7 +3,7 @@
 Denne oppgaven er en innlevering i Algoritmer og Datastrukturer. 
 Oppgaven er levert av følgende studenter:
 * Navn Navnesen, S123456, s123456@oslomet.no
-* ...
+* Georg Barlindhaug Ellingsen, s348655, s348655@oslomet.no
 
 # Arbeidsfordeling
 
