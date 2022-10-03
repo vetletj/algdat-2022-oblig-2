@@ -7,10 +7,11 @@ Oppgaven er levert av følgende studenter:
 
 # Arbeidsfordeling
 
-I oppgaven har vi hatt følgende arbeidsfordeling:
-* Vetle  har hatt hovedansvar for oppgave 1, 4 og 7.
-* Sondre   har hatt hovedansvar for oppgave 2, 5 og 8. 
-* Georg   har hatt hovedansvar for oppgave 3, 6 og 9.
+I oppgaven har vi hatt følgende arbeidsfordeling: // Her bør vi plukke oppgaver stigende og kikke på de foregående virker det som.
+
+* Georg har hatt hovedansvar for oppgavene: 1,  #,  #. 
+* Vetle har hatt hovedansvar for oppgavene: #,  #,  #. 
+* Sondre   har hatt hovedansvar for oppgave #,  #,  #. 
 
 * Vi har i fellesskap løst oppgave 10. 
 
