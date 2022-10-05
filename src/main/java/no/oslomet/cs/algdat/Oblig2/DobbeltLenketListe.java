@@ -6,6 +6,7 @@ package no.oslomet.cs.algdat.Oblig2;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -36,7 +37,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    public DobbeltLenketListe() // Dette er hoved-konstruktøren vår, så det er her vi "produserer" fra blueprints.
+    public DobbeltLenketListe() // Dette er konstruktøren vår for å opprette ny tom liste, så det er her vi "produserer" fra blueprints.
     {
         hode = null;
         hale = null;
@@ -44,31 +45,88 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         endringer = 0;
     }
 
-    public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+    public DobbeltLenketListe(T[] a) // Er dette da konstruktøren for å endre lister? Vanskelig dette...
+    {
+        Objects.requireNonNull(a, "Tabellen a er null!");
+        hode = null;
+        hale = null;
+        int i = 0;
+
+        // Finner første verdi som ikke er null, og setter denne til head.
+        while (hode == null && i < a.length)
+        {
+            if (a[i] != null)
+            {
+                hode = new Node<>(a[i], null, null);
+            }
+            i++;
+        }
+        // Finner neste verdi som ikke er null, og setter denne til hale.
+        while (hale == null && i < a.length)
+        {
+            if (a[i] != null)
+            {
+                hale = new Node<>(a[i], hode, null);
+            }
+            i++;
+        }
+
+        for (int j = i; j < a.length; j++){
+            if (a[j] != null) leggInn(a[j]);
+        }
+
+        //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
+
+
+
+
+
     }
 
     public Liste<T> subliste(int fra, int til) {
         throw new UnsupportedOperationException();
     }
 
-    /** Variabelen {@param antall} oppdaterer vi hver gang vi legger til eller
-    * trekker fra i funksjonene {@param leggInn)}, {@param fjern()}, og {@param nullstill()}.
-    * Så alt vi trenger gjøre her er å @return verdien.*/
+    /**
+     * @antall er en variabel vi oppdaterer i funksjonene:
+     * @leggInn() øker antall
+     * @fjern() senker antall
+     * @nullstill() nullstiller antall
+     * @return verdien til antall.
+    */
     @Override
     public int antall() {
 
         return antall;
     }
 
+    /**
+     * @return true om antall er lik 0
+     */
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
+        return (antall == 0) ? true : false;
     }
 
+    /**
+     *
+     * @param verdi blir lagt inn bakerst i listen
+     * @return true om alt er greit
+     */
     @Override
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException();
+
+        // Ok, her kommer en munnfull:
+        // Så vår nye hale "Future" er gamle hale "Oldtimer" sin ".neste" node. Vi har da ikke endret "Oldtimer" sin verdi.
+        // "Future"-noden, som ikke har fått et eget navn,
+        // får verdien fra funksjonen vår leggInn(verdi), samt en peker til venstre som refererer til "Oldtimer"-noden.
+        // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
+
+        if (!tom()) hale = hale.neste = new Node<>(verdi,hale,null);
+        else hale = new Node<>(verdi,hode,null);
+
+        return true;
+
     }
 
     @Override
