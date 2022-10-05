@@ -36,8 +36,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+    public DobbeltLenketListe() // Dette er hoved-konstruktøren vår, så det er her vi "produserer" fra blueprints.
+    {
+        hode = null;
+        hale = null;
+        antall = 0;
+        endringer = 0;
     }
 
     public DobbeltLenketListe(T[] a) {
@@ -48,9 +52,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+    /** Variabelen {@param antall} oppdaterer vi hver gang vi legger til eller
+    * trekker fra i funksjonene {@param leggInn)}, {@param fjern()}, og {@param nullstill()}.
+    * Så alt vi trenger gjøre her er å @return verdien.*/
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+
+        return antall;
     }
 
     @Override
