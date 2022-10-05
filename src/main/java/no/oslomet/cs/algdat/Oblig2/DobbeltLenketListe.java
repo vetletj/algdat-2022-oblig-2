@@ -57,13 +57,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         {
             if (a[i] != null)
             {
-                hode = new Node<>(a[i], null, hale);
+                hode = hale = new Node<>(a[i], null, null);
                 antall++;
             }
             i++;
         }
         // Finner neste verdi som ikke er null, og setter denne til hale.
-        while (hale == null && i < a.length)
+        while (hale == hode && i < a.length)
         {
             if (a[i] != null)
             {
@@ -72,15 +72,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
             i++;
         }
-
-        for (int j = i; j < a.length; j++)
+        while (i < a.length)
         {
-            if (a[j] != null)
+            if (a[i] != null)
             {
-                hale = hale.neste = new Node<>(a[j],hale,null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
+                hale = hale.neste = new Node<>(a[i],hale,null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
                 antall++;
             }
+            i++;
         }
+
+
+    }
+
 
         //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
 
@@ -88,7 +92,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
 
-    }
+
 
     public Liste<T> subliste(int fra, int til) {
         throw new UnsupportedOperationException();
@@ -129,11 +133,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // får verdien fra funksjonen vår leggInn(verdi), samt en peker til venstre som refererer til "Oldtimer"-noden.
         // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
 
-        if (!tom()) hale = hale.neste = new Node<>(verdi,hale,null);
-        else {
-            hode = new Node<>(verdi, null, hale);
-            hale = new Node<>(null, hode, null);
+        if (!tom())
+        {
+            hale = hale.neste = new Node<>(verdi, hale, null);
         }
+        else
+        {
+            hode = hale = new Node<>(verdi, null, null);
+        }
+        antall++;
 
         return true;
 
