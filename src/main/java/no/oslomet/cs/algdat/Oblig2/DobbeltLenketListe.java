@@ -57,7 +57,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         {
             if (a[i] != null)
             {
-                hode = new Node<>(a[i], null, null);
+                hode = new Node<>(a[i], null, hale);
+                antall++;
             }
             i++;
         }
@@ -67,12 +68,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if (a[i] != null)
             {
                 hale = new Node<>(a[i], hode, null);
+                antall++;
             }
             i++;
         }
 
-        for (int j = i; j < a.length; j++){
-            if (a[j] != null) leggInn(a[j]);
+        for (int j = i; j < a.length; j++)
+        {
+            if (a[j] != null)
+            {
+                hale = hale.neste = new Node<>(a[j],hale,null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
+                antall++;
+            }
         }
 
         //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
@@ -123,7 +130,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
 
         if (!tom()) hale = hale.neste = new Node<>(verdi,hale,null);
-        else hale = new Node<>(verdi,hode,null);
+        else {
+            hode = new Node<>(verdi, null, hale);
+            hale = new Node<>(null, hode, null);
+        }
 
         return true;
 
