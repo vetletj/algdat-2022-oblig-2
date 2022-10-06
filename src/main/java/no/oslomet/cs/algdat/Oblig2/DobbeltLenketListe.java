@@ -99,8 +99,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
 
 
-    public Liste<T> subliste(int fra, int til) {
-        throw new UnsupportedOperationException();
+    public Liste<T> subliste(int fra, int til)  // Nå jobber jeg her
+    {
+
     }
 
     /**
@@ -179,13 +180,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
-    @Override                                       // Nå jobber jeg her
+    @Override
     public T oppdater(int indeks, T nyverdi)
     {
-        T gammelverdi = hent(indeks);       // Lagrer unna eksisterende verdi først
-        finnNode(indeks).verdi = nyverdi;   // finnNode returnerer aktuell node, så vi kan her oppdatere den direkte
-        endringer++;                        // Dette teller som 1 endring
-        return gammelverdi;
+        T initialValue = hent(indeks);       // Lagrer unna eksisterende verdi først
+        if (nyverdi != null)                // Siden indeksen blir sjekket i hent(),
+                                            // ser jeg ikke grunn til å sjekke den på nytt i finnNode()
+        {
+            finnNode(indeks).verdi = nyverdi;// finnNode returnerer aktuell node, så vi kan her oppdatere den direkte
+            endringer++;
+        }
+                             // Dette teller som 1 endring
+        return initialValue;
     }
 
     @Override
