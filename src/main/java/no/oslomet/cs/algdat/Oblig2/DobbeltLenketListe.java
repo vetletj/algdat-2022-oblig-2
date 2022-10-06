@@ -39,18 +39,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public DobbeltLenketListe() // Dette er konstruktøren vår for å opprette ny tom liste, så det er her vi "produserer" fra blueprints.
     {
-        hode = null;
-        hale = null;
-        antall = 0;
-        endringer = 0;
+        hode = hale = null;
+        antall = endringer = 0;
+
     }
 
     public DobbeltLenketListe(T[] a) // Er dette da konstruktøren for å endre lister? Vanskelig dette...
     {
         Objects.requireNonNull(a, "Tabellen a er null!");
-        hode = null;
-        hale = null;
-        int i = 0;
+        hode = hale = null;
+        int i = antall = endringer = 0;
 
         // Finner første verdi som ikke er null, og setter denne til head.
         while (hode == null && i < a.length)
@@ -76,7 +74,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         {
             if (a[i] != null)
             {
-                hale = hale.neste = new Node<>(a[i],hale,null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
+                hale = hale.neste = new Node<>(a[i], hale, null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
                 antall++;
             }
             i++;
@@ -90,10 +88,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> p = hode;           // Lager en referanse til index 0
         if (indeks < (antall/2))
         {
-              // Fant ikke en bedre måte
+
             int i = 0;
             if (indeks == i) return p;
-            while (i <= indeks)
+            while (i < indeks)
             {
                 p = p.neste;
                 i++;
@@ -105,7 +103,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             p = hale;
             int i = antall-1;
             if (indeks == i) return p;
-            while (i >= indeks)
+            while (i > indeks)
             {
                 p = p.forrige;
                 i--;
@@ -131,6 +129,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         fratilKontroll(fra,til);
         Liste<T> liste = new DobbeltLenketListe<>();
         // HER MISTENKER JEG AT VI KAN FÅ BRUK FOR nullstill() siden antall kommer til å gå i spagat eller noe.
+
         for (int i = fra; i <= til; i++) leggInn(hent(i,true));              // Bruker alternativ hent()- metode.
         return liste;
     }
@@ -172,10 +171,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // får verdien fra funksjonen vår leggInn(verdi), samt en peker til venstre som refererer til "Oldtimer"-noden.
         // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
 
-        // HER MANGLER DET Å FANGE NULL-VERDIER
-        if (!tom()) hale = hale.neste = new Node<>(verdi, hale, null);
-        else hode = hale = new Node<>(verdi, null, null);
-        antall++;
+
+        if (!tom()) {
+            hale = hale.neste = new Node<>(verdi, hale, null);
+            antall++;
+        }
+        else {
+            hode = hale = new Node<>(verdi, null, null);
+            antall = 1;
+        }
+
 
 
         return true;
@@ -206,7 +211,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med hent
     {
-        indeksKontroll(indeks, toggle);        //
+        indeksKontroll(indeks, toggle);        // sjekker index-range hvor til er tillatt = antall.
         return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
 
@@ -218,14 +223,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public T oppdater(int indeks, T nyverdi)
     {
-        T initialValue = hent(indeks);       // Lagrer unna eksisterende verdi først
-        if (nyverdi != null)                // Siden indeksen blir sjekket i hent(),
-                                            // ser jeg ikke grunn til å sjekke den på nytt i finnNode()
-        {
-            finnNode(indeks).verdi = nyverdi;// finnNode returnerer aktuell node, så vi kan her oppdatere den direkte
-            endringer++;
-        }
-                             // Dette teller som 1 endring
+        Objects.requireNonNull(nyverdi, "verdi = null!");
+        T initialValue = hent(indeks);      // Lagrer unna eksisterende verdi først
+        finnNode(indeks).verdi = nyverdi;   // finnNode returnerer aktuell node, så vi kan her oppdatere den direkte?
+        endringer++;                        // Dette teller som 1 endring
         return initialValue;
     }
 
