@@ -109,6 +109,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     {
         fratilKontroll(fra,til);
         Liste<T> liste = new DobbeltLenketListe<>();
+        // HER MISTENKER JEG AT VI KAN FÅ BRUK FOR nullstill() siden antall kommer til å gå i spagat eller noe.
         for (int i = fra; i <= til; i++) leggInn(hent(i,true));              // Bruker alternativ hent()- metode.
         return liste;
     }
@@ -140,7 +141,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * @return true om alt er greit
      */
     @Override
-    public boolean leggInn(T verdi) {
+    public boolean leggInn(T verdi) {                   // Inspirert av Programkode 3.3.2 f)
 
         // Ok, her kommer en munnfull:
         // Så vår nye hale "Future" er gamle hale "Oldtimer" sin ".neste" node. Vi har da ikke endret "Oldtimer" sin verdi.
