@@ -85,13 +85,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     }
 
+    private Node<T> finnNode(int indeks)    // Tok utgangspunkt i koden med samme navn i kapittel 3.3 i kompendiet.
+    {
+        Node<T> p = hode;                                                   // Lager en referanse til index 0
+        Node<T> tail= hale;                                                 // Lager en referanse til index -1
+
+        if (indeks < antall/2) for (int i = 0; i < indeks; i++) p = p.neste;// Om sann leter vi etter indeks fra head:
+        else for (int i = antall-1; i >= indeks; i--) p = tail.forrige;     // Alternativt begynner vi bakfra
+        return p;
+    }
+
 
         //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
-
-
-
-
-
 
 
     public Liste<T> subliste(int fra, int til) {
