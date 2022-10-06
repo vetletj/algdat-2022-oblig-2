@@ -180,8 +180,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override                                       // Nå jobber jeg her
-    public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+    public T oppdater(int indeks, T nyverdi)
+    {
+        T gammelverdi = hent(indeks);       // Lagrer unna eksisterende verdi først
+        finnNode(indeks).verdi = nyverdi;   // finnNode returnerer aktuell node, så vi kan her oppdatere den direkte
+        endringer++;                        // Dette teller som 1 endring
+        return gammelverdi;
     }
 
     @Override
