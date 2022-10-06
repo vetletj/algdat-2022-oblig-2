@@ -87,16 +87,36 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     private Node<T> finnNode(int indeks)                // Tok utgangspunkt i koden Programkode 3.3.3 a)
     {
-        Node<T> p = hode;                                                   // Lager en referanse til index 0
-        Node<T> tail= hale;                                                 // Lager en referanse til index -1
+        Node<T> p = hode;           // Lager en referanse til index 0
+        if (indeks < (antall/2))
+        {
+              // Fant ikke en bedre måte
+            int i = 0;
+            if (indeks == i) return p;
+            while (i <= indeks)
+            {
+                p = p.neste;
+                i++;
+            }
+        }
 
-        if (indeks < antall/2) for (int i = 0; i < indeks; i++) p = p.neste;// Om sann leter vi etter indeks fra head:
-        else for (int i = antall-1; i >= indeks; i--) p = tail.forrige;     // Alternativt begynner vi bakfra
+        else
+        {
+            p = hale;
+            int i = antall-1;
+            if (indeks == i) return p;
+            while (i >= indeks)
+            {
+                p = p.forrige;
+                i--;
+            }
+
+        }     // Alternativt begynner vi bakfra
         return p;
     }
     private void fratilKontroll(int fra, int til)       // Utgangspunkt fra Programkode 1.2.3 a)
     {
-        if (fra < 0 || (til >= antall ? true : (fra > til ? true : false))) {   // Her vinner jeg nok ingen konkurranse i lesbarhet...
+        if (fra < 0 || (til >= antall || (fra > til))) {   // Her vinner jeg nok ingen konkurranse i lesbarhet...
             throw new IndexOutOfBoundsException("Fra "+ fra +" til " +til+ " fungerer ikke sammen med lengde: "+antall);
         }
 
@@ -142,7 +162,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * @return true om alt er greit
      */
     @Override
-    public boolean leggInn(T verdi) {                   // Inspirert av Programkode 3.3.2 f)
+    public boolean leggInn(T verdi) {
+        // Inspirert av Programkode 3.3.2 f)
+        Objects.requireNonNull(verdi, "verdi = null!");
 
         // Ok, her kommer en munnfull:
         // Så vår nye hale "Future" er gamle hale "Oldtimer" sin ".neste" node. Vi har da ikke endret "Oldtimer" sin verdi.
@@ -150,9 +172,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // får verdien fra funksjonen vår leggInn(verdi), samt en peker til venstre som refererer til "Oldtimer"-noden.
         // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
 
+        // HER MANGLER DET Å FANGE NULL-VERDIER
         if (!tom()) hale = hale.neste = new Node<>(verdi, hale, null);
         else hode = hale = new Node<>(verdi, null, null);
         antall++;
+
 
         return true;
 
@@ -179,7 +203,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         indeksKontroll(indeks, false);  // Sjekk at indeks er gyldig. Hold mus over indeksKontroll(), har prøvd å forklare.
         return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
-    @Override
+
     public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med hent
     {
         indeksKontroll(indeks, toggle);        //
