@@ -17,6 +17,13 @@ I oppgaven har vi hatt følgende arbeidsfordeling: // Her bør vi plukke oppgave
 
 # Oppgavebeskrivelse
 
-I oppgave 1 så gikk vi frem ved å ...
+I oppgave 1 brukte jeg masse tid på å knote. Skjønte vel egentlig ingenting de første dagene.
+antall(): Siden dette er en variabel som vi skal oppdatere i de ulike funksjonene var det bare å returnere verdien.
+tom(): her fikk jeg brukt den metoden som ble vist i forelesning med return (a>b) ? x : y; // Snedig.
+konstruktør tom : Her forstod jeg det som at vi bare skulle initiere tomme verdier.
+konstruktør liste : Her begynte morroa og jeg gikk selvfølgelig i fella med å bruke leggInn() først, før jeg leste hele oppgaven på nytt.
+
+For å unngå å spørre potensielt hundrevis av ganger om listen har hode og hale, gjøres det i små while looper initielt.
+Ville egentlig brukt en for loop på nederste biten, men (i python kan du følge opp en for loop med "else" om den ikke har noen range) da fikk jeg ikke fanget opp (på en elegant måte) om rangen var lik 0, så ble nok en while loop der.
 
 I oppgave 2 så brukte vi en ... til å ...
