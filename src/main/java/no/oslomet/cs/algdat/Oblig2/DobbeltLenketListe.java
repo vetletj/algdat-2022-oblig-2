@@ -85,7 +85,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     }
 
-    private Node<T> finnNode(int indeks)    // Tok utgangspunkt i koden med samme navn i kapittel 3.3 i kompendiet.
+    private Node<T> finnNode(int indeks)                // Tok utgangspunkt i koden Programkode 3.3.3 a)
     {
         Node<T> p = hode;                                                   // Lager en referanse til index 0
         Node<T> tail= hale;                                                 // Lager en referanse til index -1
@@ -94,7 +94,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         else for (int i = antall-1; i >= indeks; i--) p = tail.forrige;     // Alternativt begynner vi bakfra
         return p;
     }
+    private void fratilKontroll(int fra, int til)       // Utgangspunkt fra Programkode 1.2.3 a)
+    {
+        if (fra < 0 || (til >= antall ? true : (fra > til ? true : false))) {   // Her vinner jeg nok ingen konkurranse i lesbarhet
+            throw new IndexOutOfBoundsException("Fra "+ fra +" til " +til+ " fungerer ikke sammen med lengde: "+antall);
+        }
 
+    }
 
         //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
 
@@ -193,6 +199,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                              // Dette teller som 1 endring
         return initialValue;
     }
+
 
     @Override
     public boolean fjern(T verdi) {
