@@ -96,7 +96,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
     private void fratilKontroll(int fra, int til)       // Utgangspunkt fra Programkode 1.2.3 a)
     {
-        if (fra < 0 || (til >= antall ? true : (fra > til ? true : false))) {   // Her vinner jeg nok ingen konkurranse i lesbarhet
+        if (fra < 0 || (til >= antall ? true : (fra > til ? true : false))) {   // Her vinner jeg nok ingen konkurranse i lesbarhet...
             throw new IndexOutOfBoundsException("Fra "+ fra +" til " +til+ " fungerer ikke sammen med lengde: "+antall);
         }
 
@@ -107,7 +107,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public Liste<T> subliste(int fra, int til)  // Nå jobber jeg her
     {
-
+        fratilKontroll(fra,til);
+        Liste<T> liste = new DobbeltLenketListe<>();
+        for (int i = fra; i <= til; i++) leggInn(hent(i,true));              // Bruker alternativ hent()- metode.
+        return liste;
     }
 
     /**
@@ -145,14 +148,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // får verdien fra funksjonen vår leggInn(verdi), samt en peker til venstre som refererer til "Oldtimer"-noden.
         // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
 
-        if (!tom())
-        {
-            hale = hale.neste = new Node<>(verdi, hale, null);
-        }
-        else
-        {
-            hode = hale = new Node<>(verdi, null, null);
-        }
+        if (!tom()) hale = hale.neste = new Node<>(verdi, hale, null);
+        else hode = hale = new Node<>(verdi, null, null);
         antall++;
 
         return true;
@@ -178,6 +175,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public T hent(int indeks)                   // Hent element som befinner seg ved indeks:
     {
         indeksKontroll(indeks, false);  // Sjekk at indeks er gyldig. Hold mus over indeksKontroll(), har prøvd å forklare.
+        return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
+    }
+    @Override
+    public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med hent
+    {
+        indeksKontroll(indeks, toggle);        //
         return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
 
