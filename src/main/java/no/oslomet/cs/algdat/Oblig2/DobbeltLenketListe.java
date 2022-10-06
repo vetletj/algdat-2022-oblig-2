@@ -162,9 +162,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     *
+     * @param indeks
+     * @return
+     */
     @Override
-    public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+    public T hent(int indeks)                   // Hent element som befinner seg ved indeks:
+    {
+        indeksKontroll(indeks, false);  // Sjekk at indeks er gyldig. Hold mus over indeksKontroll(), har prøvd å forklare.
+        return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
 
     @Override
@@ -172,7 +179,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
-    @Override
+    @Override                                       // Nå jobber jeg her
     public T oppdater(int indeks, T nyverdi) {
         throw new UnsupportedOperationException();
     }
