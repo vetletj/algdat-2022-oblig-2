@@ -105,6 +105,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
 
 
+
     public Liste<T> subliste(int fra, int til)  // Nå jobber jeg her
     {
         fratilKontroll(fra,til);
