@@ -11,7 +11,7 @@ I oppgaven har vi hatt følgende arbeidsfordeling: // Her bør vi plukke oppgave
 
 * Georg har hatt hovedansvar for oppgavene: 1,  3,  #. 
 * Vetle har hatt hovedansvar for oppgavene: 2,  #,  #. 
-* Sondre   har hatt hovedansvar for oppgave 4,  #,  #. 
+* Sondre   har hatt hovedansvar for oppgave 4,  5,  #. 
 
 * Vi har i fellesskap løst oppgave 10. 
 
@@ -27,3 +27,4 @@ For å unngå å spørre potensielt hundrevis av ganger om listen har hode og ha
 Ville egentlig brukt en for loop på nederste biten, men (i python kan du følge opp en for loop med "else" om den ikke har noen range) da fikk jeg ikke fanget opp (på en elegant måte) om rangen var lik 0, så ble nok en while loop der.
 
 I oppgave 2 så brukte vi en ... til å ...
+
