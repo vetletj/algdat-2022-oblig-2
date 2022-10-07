@@ -154,7 +154,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
+        int x = indeksTil(verdi);
+        if(x>=0)
+            return true;
+        else
+            return false;
     }
 
     @Override
@@ -164,7 +168,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+        Node<T> x = hode;
+        for(int i = 0; i < antall; i++ )
+        {
+        if(x.verdi.equals(verdi))
+            return i;
+        else
+        {
+            x = x.neste;
+        }
+        }
+        return -1;
     }
 
     @Override
