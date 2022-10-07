@@ -149,7 +149,31 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
+        if (verdi == null)
+            throw new NullPointerException("Verdi er null.");
+        if (indeks < 0 || indeks > antall) {
+            if (indeks < 0)
+                throw new IllegalArgumentException("Indeks er mindre enn 0.");
+            else
+                throw new IllegalArgumentException("Indeks er større enn antall.");
+        }
+
+        if (antall == 0){
+
+        }
+        else if(indeks == 0)
+        {
+
+        }
+        else if (indeks == antall)
+        {
+
+        }
+        else
+        {
+            
+        }
+
     }
 
     @Override
