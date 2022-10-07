@@ -9,7 +9,7 @@ Oppgaven er levert av følgende studenter:
 
 I oppgaven har vi hatt følgende arbeidsfordeling: // Her bør vi plukke oppgaver stigende og kikke på de foregående virker det som.
 
-* Georg har hatt hovedansvar for oppgavene: 1,  3,  #. 
+* Georg har hatt hovedansvar for oppgavene: 1,  3,  7. 
 * Vetle har hatt hovedansvar for oppgavene: 2,  #,  #. 
 * Sondre   har hatt hovedansvar for oppgave 4,  5,  #. 
 
