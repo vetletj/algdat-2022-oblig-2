@@ -177,6 +177,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             x.neste = new Node<>(verdi, x, x.neste);
         }
         antall++;
+        endringer++;
     }
 
     @Override
