@@ -153,13 +153,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new NullPointerException("Verdi er null.");
         if (indeks < 0 || indeks > antall) {
             if (indeks < 0)
-                throw new IllegalArgumentException("Indeks er mindre enn 0.");
+                throw new IndexOutOfBoundsException("Indeks er mindre enn 0.");
             else
-                throw new IllegalArgumentException("Indeks er større enn antall.");
+                throw new IndexOutOfBoundsException("Indeks er større enn antall.");
         }
 
-        if (antall == 0){
-        hode = hale = new Node<>(verdi, null, null);
+        if (hode == null && hale == null){
+            hode = hale = new Node<>(verdi, null, null);
         }
         else if(indeks == 0)
         {
@@ -172,7 +172,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         else
         {
             Node<T> x = hode; // Testnode
-            for(int i = 0; i<antall; i++)
+            for(int i = 0; i<indeks-1; i++)
                 x = x.neste;  // Flytter x til ønsket plassering - 1 av ny node
             x.neste = new Node<>(verdi, x, x.neste);
         }
