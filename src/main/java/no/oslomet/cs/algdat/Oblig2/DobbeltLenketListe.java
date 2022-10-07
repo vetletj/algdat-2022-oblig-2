@@ -151,10 +151,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public void leggInn(int indeks, T verdi) {
         throw new UnsupportedOperationException();
     }
-
+    /**
+     * @inneholder Checks if value is found in a list.
+     * @param verdi value to check if found.
+     * @return True if found, False if not.
+     */
     @Override
     public boolean inneholder(T verdi) {
-        int x = indeksTil(verdi);
+        int x = indeksTil(verdi);  // Sjekker om verdi finnes i listen ved hjelp av indeksTil. Om den ikke finnes returneres -1
         if(x>=0)
             return true;
         else
@@ -166,19 +170,24 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @IndekTil A function to find index of said value in list.
+     * @param verdi value to be found index of.
+     * @return Index where value is placed in list, -1 if value not existing in list
+     */
     @Override
     public int indeksTil(T verdi) {
-        Node<T> x = hode;
+        Node<T> x = hode; // Testvariabel
         for(int i = 0; i < antall; i++ )
         {
-        if(x.verdi.equals(verdi))
-            return i;
+        if(x.verdi.equals(verdi)) // Sjekker om verdi finnes i node på indeks i
+            return i;             // returnerer i om verdi finnes her
         else
         {
-            x = x.neste;
+            x = x.neste;         // Går videre til neste node om verdi ikke funnet
         }
         }
-        return -1;
+        return -1;               // Returnerer -1 om verdi ikke finnes i listen
     }
 
     @Override
