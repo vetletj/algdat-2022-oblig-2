@@ -39,18 +39,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public DobbeltLenketListe() // Dette er konstruktøren vår for å opprette ny tom liste, så det er her vi "produserer" fra blueprints.
     {
-        hode = null;
-        hale = null;
-        antall = 0;
-        endringer = 0;
+        hode = hale = null;
+        antall = endringer = 0;
+
     }
 
     public DobbeltLenketListe(T[] a) // Er dette da konstruktøren for å endre lister? Vanskelig dette...
     {
         Objects.requireNonNull(a, "Tabellen a er null!");
-        hode = null;
-        hale = null;
-        int i = 0;
+        hode = hale = null;
+        int i = antall = endringer = 0;
 
         // Finner første verdi som ikke er null, og setter denne til head.
         while (hode == null && i < a.length)
@@ -76,7 +74,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         {
             if (a[i] != null)
             {
-                hale = hale.neste = new Node<>(a[i],hale,null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
+                hale = hale.neste = new Node<>(a[i], hale, null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
                 antall++;
             }
             i++;
@@ -85,17 +83,55 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     }
 
+    private Node<T> finnNode(int indeks)                // Tok utgangspunkt i koden Programkode 3.3.3 a)
+    {
+        Node<T> p = hode;           // Lager en referanse til index 0
+        if (indeks < (antall/2))
+        {
+
+            int i = 0;
+            if (indeks == i) return p;
+            while (i < indeks)
+            {
+                p = p.neste;
+                i++;
+            }
+        }
+
+        else
+        {
+            p = hale;
+            int i = antall-1;
+            if (indeks == i) return p;
+            while (i > indeks)
+            {
+                p = p.forrige;
+                i--;
+            }
+
+        }     // Alternativt begynner vi bakfra
+        return p;
+    }
+    private void fratilKontroll(int fra, int til)       // Utgangspunkt fra Programkode 1.2.3 a)
+    {
+        if (fra < 0 || (til >= antall || (fra > til))) {   // Her vinner jeg nok ingen konkurranse i lesbarhet...
+            throw new IndexOutOfBoundsException("Fra "+ fra +" til " +til+ " fungerer ikke sammen med lengde: "+antall);
+        }
+
+    }
 
         //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
 
 
 
+    public Liste<T> subliste(int fra, int til)  // Nå jobber jeg her
+    {
+        fratilKontroll(fra,til);
+        Liste<T> liste = new DobbeltLenketListe<>();
+        // HER MISTENKER JEG AT VI KAN FÅ BRUK FOR nullstill() siden antall kommer til å gå i spagat eller noe.
 
-
-
-
-    public Liste<T> subliste(int fra, int til) {
-        throw new UnsupportedOperationException();
+        for (int i = fra; i <= til; i++) leggInn(hent(i,true));              // Bruker alternativ hent()- metode.
+        return liste;
     }
 
     /**
@@ -126,6 +162,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      */
     @Override
     public boolean leggInn(T verdi) {
+        // Inspirert av Programkode 3.3.2 f)
+        Objects.requireNonNull(verdi, "verdi = null!");
 
         // Ok, her kommer en munnfull:
         // Så vår nye hale "Future" er gamle hale "Oldtimer" sin ".neste" node. Vi har da ikke endret "Oldtimer" sin verdi.
@@ -133,15 +171,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // får verdien fra funksjonen vår leggInn(verdi), samt en peker til venstre som refererer til "Oldtimer"-noden.
         // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
 
-        if (!tom())
-        {
+
+        if (!tom()) {
             hale = hale.neste = new Node<>(verdi, hale, null);
+            antall++;
         }
-        else
-        {
+        else {
             hode = hale = new Node<>(verdi, null, null);
+            antall = 1;
         }
-        antall++;
+
+
 
         return true;
 
@@ -157,9 +197,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     *
+     * @param indeks
+     * @return
+     */
     @Override
-    public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+    public T hent(int indeks)                   // Hent element som befinner seg ved indeks:
+    {
+        indeksKontroll(indeks, false);  // Sjekk at indeks er gyldig. Hold mus over indeksKontroll(), har prøvd å forklare.
+        return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
+    }
+
+    public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med hent
+    {
+        indeksKontroll(indeks, toggle);        // sjekker index-range hvor til er tillatt = antall.
+        return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
 
     @Override
@@ -168,9 +221,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+    public T oppdater(int indeks, T nyverdi)
+    {
+        Objects.requireNonNull(nyverdi, "verdi = null!");
+        T initialValue = hent(indeks);      // Lagrer unna eksisterende verdi først
+        finnNode(indeks).verdi = nyverdi;   // finnNode returnerer aktuell node, så vi kan her oppdatere den direkte?
+        endringer++;                        // Dette teller som 1 endring
+        return initialValue;
     }
+
 
     @Override
     public boolean fjern(T verdi) {
