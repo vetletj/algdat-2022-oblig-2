@@ -68,6 +68,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if (a[i] != null)
             {
                 hale = new Node<>(a[i], hode, null);
+                hode.neste = hale;
                 antall++;
             }
             i++;
@@ -90,16 +91,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
 
-
-
-
-
     public Liste<T> subliste(int fra, int til) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * @antall er en variabel vi oppdaterer i funksjonene:
+     * @tom() returnerer true hvis liste er tom og false hvis den ikke er det
      * @leggInn() øker antall
      * @fjern() senker antall
      * @nullstill() nullstiller antall
@@ -187,15 +185,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
         sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
 
-        if (tom()) // Sjekker om listen er tom med metoden tom(), kunne også anvent antall variable
-            sb.append(']'); // Hvis listen er tom, returneres kun: "[]"
-
-        else {
+        if (!tom()) {
             Node<T> tempNode = hode; // Lager ny midlertidig node class med generisk veri og setter den til hode noden i vår doblet lenket liste
             sb.append(tempNode.verdi); // Setter første verdi fra dobbelLenketListe inn i stringBuilder
             tempNode = tempNode.neste; // Går vidre til neste node i liste
@@ -204,14 +200,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 sb.append(", " + tempNode.verdi); // Legger til node data i string sb
                 tempNode = tempNode.neste; // Går vidre til neste node
             }
-            sb.append(']'); // Vi kom til enden av listen og legger da til klammeparantes for å lukke liste
         }
+        sb.append(']'); // Vi kom til enden av listen og legger da til klammeparantes for å lukke liste
         return sb.toString(); // Returnerer hele stringen
         //throw new UnsupportedOperationException();
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+        StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
+        sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
+
+        if (!tom()) {
+            Node<T> tempNode = hale; // Lager ny midlertidig node class med generisk veri og setter den til hale noden i vår doblet lenket liste
+            sb.append(tempNode.verdi); // Setter første verdi fra dobbelLenketListe inn i stringBuilder
+            tempNode = tempNode.forrige; // Går bakover til forrige node i liste
+
+            while (tempNode != null) { // Sjekker om det er starten av listen, hvis ikke fortsetter vi å legge til verdiene til nodene i sb
+                sb.append(", " + tempNode.verdi); // Legger til node data i string sb
+                tempNode = tempNode.forrige; // Går bakover til forrige node
+            }
+        }
+        sb.append(']'); // Vi kom til starten av listen og legger da til klammeparantes for å lukke liste
+        return sb.toString(); // Returnerer hele stringen
     }
 
     @Override
