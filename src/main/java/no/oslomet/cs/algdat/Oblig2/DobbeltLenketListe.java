@@ -189,21 +189,24 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier
+        StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
         sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
 
         if (tom()) // Sjekker om listen er tom med metoden tom(), kunne også anvent antall variable
             sb.append(']'); // Hvis listen er tom, returneres kun: "[]"
 
         else {
-            Node<T> x = hode; // Lager ny node class med generisk veri og setter den til hode noden i vår doblet lenket liste
+            Node<T> tempNode = hode; // Lager ny midlertidig node class med generisk veri og setter den til hode noden i vår doblet lenket liste
+            sb.append(tempNode.verdi); // Setter første verdi fra dobbelLenketListe inn i stringBuilder
+            tempNode = tempNode.neste; // Går vidre til neste node i liste
 
-            while ()
-                sb.append();
-
+            while (tempNode != null) { // Sjekker om det er enden av listen, hvis ikke fortsetter vi å legge til verdiene til nodene i sb
+                sb.append(", " + tempNode.verdi); // Legger til node data i string sb
+                tempNode = tempNode.neste; // Går vidre til neste node
+            }
+            sb.append(']'); // Vi kom til enden av listen og legger da til klammeparantes for å lukke liste
         }
-
-        return sb.toString();
+        return sb.toString(); // Returnerer hele stringen
         //throw new UnsupportedOperationException();
     }
 
