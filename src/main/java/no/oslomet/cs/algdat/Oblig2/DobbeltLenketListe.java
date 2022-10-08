@@ -189,7 +189,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier
+        sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
+
+        if (tom()) // Sjekker om listen er tom med metoden tom(), kunne også anvent antall variable
+            sb.append(']'); // Hvis listen er tom, returneres kun: "[]"
+
+        else {
+            Node<T> x = hode; // Lager ny node class med generisk veri og setter den til hode noden i vår doblet lenket liste
+
+            while ()
+                sb.append();
+
+        }
+
+        return sb.toString();
+        //throw new UnsupportedOperationException();
     }
 
     public String omvendtString() {
