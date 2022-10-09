@@ -124,25 +124,24 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      */
     @Override
     public boolean leggInn(T verdi) {
+        Objects.requireNonNull(verdi); // Null-verdi er ikke tillatt å legge til, kontrollerer derfor med requireNonNull-metode fra klassen Objects
+        Node<T> nyNode = new Node<>(verdi, null, null); // Lager ny node, med ny verdi, som skal legges inn bakerst i listen (peker ingen steder enda)
 
-        // Ok, her kommer en munnfull:
-        // Så vår nye hale "Future" er gamle hale "Oldtimer" sin ".neste" node. Vi har da ikke endret "Oldtimer" sin verdi.
-        // "Future"-noden, som ikke har fått et eget navn,
-        // får verdien fra funksjonen vår leggInn(verdi), samt en peker til venstre som refererer til "Oldtimer"-noden.
-        // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
+        if (tom() & hale == null & hode == null) { // Tilfelle 1 - listen er på forhånd tom
+            hode = nyNode; // Ettersom listen er tom vil nye noden og hode være samme
+        }
 
-        if (!tom())
-        {
-            hale = hale.neste = new Node<>(verdi, hale, null);
+        else { // Tilfelle 2 - listen er ikke tom så vi oppdaterer kun hale ettersom vi legger til ny node bakerst i liste
+            hale.neste = nyNode; // gamle hale skal peke på ny hale
+            nyNode.forrige = hale; // ny hale må peke tilbake på gammel hale
         }
-        else
-        {
-            hode = hale = new Node<>(verdi, null, null);
-        }
-        antall++;
+
+        hale = nyNode; // I begge tilfeller vil hale være nye noden da vi skal legge den inn bakerst
+
+        antall++; // Inkrementerer antall ettersom vi får en ekstra node i listen
+        endringer++; // Inkrementerer endringer ettersom vi har utført en endring i listen
 
         return true;
-
     }
 
     @Override
