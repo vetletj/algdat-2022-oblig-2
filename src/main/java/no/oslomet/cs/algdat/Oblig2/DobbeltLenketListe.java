@@ -4,9 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -232,7 +230,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
-    private class DobbeltLenketListeIterator implements Iterator<T> {
+    private class DobbeltLenketListeIterator implements Iterator<Boolean> {
         private Node<T> denne;
         private boolean fjernOK;
         private int iteratorendringer;
@@ -253,8 +251,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         @Override
-        public T next() {
-            throw new UnsupportedOperationException();
+        public T next() { // Her har jeg bare fulgt oppgavetekst steg for steg
+            if (iteratorendringer != endringer) { //Sjekker først om iteratorendringer er lik endringer.
+                throw new ConcurrentModificationException(); // Hvis ikke, kastes en ConcurrentModificationException.
+            }
+            if (!hasNext()) { // hvis det ikke er flere igjen i listen (dvs. hvis hasNext() ikke er sann/true)
+                throw new NoSuchElementException(); // Så en NoSuchElementException
+            }
+            fjernOK = true; // Deretter settes fjernOK til sann/true
+            T tempVerdi = denne.verdi; // Setter verdien til denne lik midlertidig verdi
+            denne = denne.neste; // denne flyttes til den neste node
+            return verdi; // verdien til denne returneres
+            //throw new UnsupportedOperationException();
         }
 
         @Override
