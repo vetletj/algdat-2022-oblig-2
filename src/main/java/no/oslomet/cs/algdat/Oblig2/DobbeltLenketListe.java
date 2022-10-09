@@ -223,7 +223,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+        return (Iterator<T>) new DobbeltLenketListeIterator(); // Usikker på om dette er riktig
+        //throw new UnsupportedOperationException();
     }
 
     public Iterator<T> iterator(int indeks) {
