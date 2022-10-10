@@ -17,6 +17,7 @@ I oppgaven har vi hatt følgende arbeidsfordeling: // Her bør vi plukke oppgave
 
 # Oppgavebeskrivelse
 
+### Oppgave 1
 I oppgave 1 brukte jeg masse tid på å knote. Skjønte vel egentlig ingenting de første dagene.
 antall(): Siden dette er en variabel som vi skal oppdatere i de ulike funksjonene var det bare å returnere verdien.
 tom(): her fikk jeg brukt den metoden som ble vist i forelesning med return (a>b) ? x : y; // Snedig.
@@ -26,6 +27,19 @@ konstruktør liste : Her begynte morroa og jeg gikk selvfølgelig i fella med å
 For å unngå å spørre potensielt hundrevis av ganger om listen har hode og hale, gjøres det i små while looper initielt.
 Ville egentlig brukt en for loop på nederste biten, men (i python kan du følge opp en for loop med "else" om den ikke har noen range) da fikk jeg ikke fanget opp (på en elegant måte) om rangen var lik 0, så ble nok en while loop der.
 
-I oppgave 2 så brukte vi en ... til å ...
 
+### Oppgave 2
+I oppgave 2a metoden toString() så brukte jeg en stringBuilder som spesifisert i oppgavetekst for å sette sammen generisk data til en string.
+Brukte tom() metoden som allerede var programmert opp i DobbeltLenketListe for å sjekke om listen var tom, i disse tilfellene blir en midlertidig node 
+som kopierer hode noden laget og vi legger til verdien til denne midlertidig noden i stringBuilder med append metoden. Deretter peker vi midlertidig node 
+til neste node i listen og går inn i en while loop som kjører helt fram til midlertidig node har vedi null (som betyr at vi har nådd slutten av listen). 
+omvendtString fungerer på nesten akkurat samme måte, det er kun to forskjeller og det er at istedendfor å lage en midlertidig node av hode så lager jeg
+den av hale, og istedenfor å gå til neste node går jeg til forrige. 
+
+I oppgave 2b sjekker jeg først om bruker prøver å legge inn en null verdi, dette utføres med requireNonNull-metode beskrevet i oppgavetekst. 
+Deretter lager jeg en ny node med verdien vi vil legge inn i liste, sjekker så for to tilfeller; 1. om listen allerede er tom og 2. om den ikke er det. 
+For tilfelle 1 setter vi hode lik ny node. For tilfelle 2 endrer vi neste peker for "gammel" hale til ny node og forrige peker til nye noden til hale.
+Til slutt, for begge tilfeller, setter vi hale lik ny node og inkrementerer variable antall og endringer med en. 
+
+### Oppgave 3
 I oppgave 3 [georg ikke glem å fylle ut denne]
