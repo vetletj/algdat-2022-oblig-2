@@ -39,3 +39,7 @@ I oppgave 2b sjekker jeg først om bruker prøver å legge inn en null verdi, de
 Deretter lager jeg en ny node med verdien vi vil legge inn i liste, sjekker så for to tilfeller; 1. om listen allerede er tom og 2. om den ikke er det. 
 For tilfelle 1 setter vi hode lik ny node. For tilfelle 2 endrer vi neste peker for "gammel" hale til ny node og forrige peker til nye noden til hale.
 Til slutt, for begge tilfeller, setter vi hale lik ny node og inkrementerer variable antall og endringer med en. 
+
+### Oppgave 8
+I oppgave 8 a, b & d har jeg egentlig bare fulgt oppgavebeskrivelsene steg for steg. I deloppgave c satt jeg først denne noden til hode og anvende deretter en for-løkke
+til å gå igjennom neste pekerne fram til vi nådde gitt indeks. Resten er copy-pase fra konstruktøren som var ferdig kodet.
