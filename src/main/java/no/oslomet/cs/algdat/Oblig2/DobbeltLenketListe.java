@@ -39,18 +39,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public DobbeltLenketListe() // Dette er konstruktøren vår for å opprette ny tom liste, så det er her vi "produserer" fra blueprints.
     {
-        hode = null;
-        hale = null;
-        antall = 0;
-        endringer = 0;
+        hode = hale = null;
+        antall = endringer = 0;
+
     }
 
     public DobbeltLenketListe(T[] a) // Er dette da konstruktøren for å endre lister? Vanskelig dette...
     {
         Objects.requireNonNull(a, "Tabellen a er null!");
-        hode = null;
-        hale = null;
-        int i = 0;
+        hode = hale = null;
+        int i = antall = endringer = 0;
 
         // Finner første verdi som ikke er null, og setter denne til head.
         while (hode == null && i < a.length)
@@ -77,7 +75,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         {
             if (a[i] != null)
             {
-                hale = hale.neste = new Node<>(a[i],hale,null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
+                hale = hale.neste = new Node<>(a[i], hale, null); // er spent på om forrige rakk å bli til neste før den pekte, ellers peker den på seg selv...
                 antall++;
             }
             i++;
@@ -86,13 +84,52 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     }
 
+    private Node<T> finnNode(int indeks)                // Tok utgangspunkt i koden Programkode 3.3.3 a)
+    {
+        Node<T> p = hode;           // Lager en referanse til index 0
+        if (indeks < (antall/2))
+        {
 
-        //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
+            int i = 0;
+            if (indeks == i) return p;
+            while (i < indeks)
+            {
+                p = p.neste;
+                i++;
+            }
+        }
+
+        else
+        {
+            p = hale;
+            int i = antall-1;
+            if (indeks == i) return p;
+            while (i > indeks)
+            {
+                p = p.forrige;
+                i--;
+            }
+
+        }     // Alternativt begynner vi bakfra
+        return p;
+    }
+    private void fratilKontroll(int fra, int til)       // Utgangspunkt fra Programkode 1.2.3 a)
+    {
+        if (fra < 0 || (til >= antall || (fra > til))) {   // Her vinner jeg nok ingen konkurranse i lesbarhet...
+            throw new IndexOutOfBoundsException("Fra "+ fra +" til " +til+ " fungerer ikke sammen med lengde: "+antall);
+        }
+
+    }
 
 
+    public Liste<T> subliste(int fra, int til)  // Nå jobber jeg her
+    {
+        fratilKontroll(fra,til);
+        Liste<T> liste = new DobbeltLenketListe<>();
+        // HER MISTENKER JEG AT VI KAN FÅ BRUK FOR nullstill() siden antall kommer til å gå i spagat eller noe.
 
-    public Liste<T> subliste(int fra, int til) {
-        throw new UnsupportedOperationException();
+        for (int i = fra; i <= til; i++) leggInn(hent(i,true));              // Bruker alternativ hent()- metode.
+        return liste;
     }
 
     /**
@@ -124,6 +161,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      */
     @Override
     public boolean leggInn(T verdi) {
+    
         Objects.requireNonNull(verdi); // Null-verdi er ikke tillatt å legge til, kontrollerer derfor med requireNonNull-metode fra klassen Objects
         Node<T> nyNode = new Node<>(verdi, null, null); // Lager ny node, med ny verdi, som skal legges inn bakerst i listen (peker ingen steder enda)
 
@@ -148,26 +186,68 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public void leggInn(int indeks, T verdi) {
         throw new UnsupportedOperationException();
     }
-
+    /**
+     * @inneholder Checks if value is found in a list.
+     * @param verdi value to check if found.
+     * @return True if found, False if not.
+     */
     @Override
     public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
+        int x = indeksTil(verdi);  // Sjekker om verdi finnes i listen ved hjelp av indeksTil. Om den ikke finnes returneres -1
+        if(x>=0)
+            return true;
+        else
+            return false;
     }
 
+    /**
+     *
+     * @param indeks
+     * @return
+     */
     @Override
-    public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+    public T hent(int indeks)                   // Hent element som befinner seg ved indeks:
+    {
+        indeksKontroll(indeks, false);  // Sjekk at indeks er gyldig. Hold mus over indeksKontroll(), har prøvd å forklare.
+        return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
 
+    public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med hent
+    {
+        indeksKontroll(indeks, toggle);        // sjekker index-range hvor til er tillatt = antall.
+        return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
+    }
+
+    /**
+     * @IndekTil A function to find index of said value in list.
+     * @param verdi value to be found index of.
+     * @return Index where value is placed in list, -1 if value not existing in list
+     */
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+        Node<T> x = hode; // Testvariabel
+        for(int i = 0; i < antall; i++ )
+        {
+        if(x.verdi.equals(verdi)) // Sjekker om verdi finnes i node på indeks i
+            return i;             // returnerer i om verdi finnes her
+        else
+        {
+            x = x.neste;         // Går videre til neste node om verdi ikke funnet
+        }
+        }
+        return -1;               // Returnerer -1 om verdi ikke finnes i listen
     }
 
     @Override
-    public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+    public T oppdater(int indeks, T nyverdi)
+    {
+        Objects.requireNonNull(nyverdi, "verdi = null!");
+        T initialValue = hent(indeks);      // Lagrer unna eksisterende verdi først
+        finnNode(indeks).verdi = nyverdi;   // finnNode returnerer aktuell node, så vi kan her oppdatere den direkte?
+        endringer++;                        // Dette teller som 1 endring
+        return initialValue;
     }
+
 
     @Override
     public boolean fjern(T verdi) {

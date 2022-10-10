@@ -9,9 +9,9 @@ Oppgaven er levert av følgende studenter:
 
 I oppgaven har vi hatt følgende arbeidsfordeling: // Her bør vi plukke oppgaver stigende og kikke på de foregående virker det som.
 
-* Georg har hatt hovedansvar for oppgavene: 1,  3,  #. 
-* Vetle har hatt hovedansvar for oppgavene: 2,  #,  #. 
-* Sondre   har hatt hovedansvar for oppgave 4,  #,  #. 
+* Georg har hatt hovedansvar for oppgavene: 1,  3,  7. 
+* Vetle har hatt hovedansvar for oppgavene: 2,  8,  9. 
+* Sondre   har hatt hovedansvar for oppgave 4,  5,  6. 
 
 * Vi har i fellesskap løst oppgave 10. 
 
@@ -27,6 +27,7 @@ konstruktør liste : Her begynte morroa og jeg gikk selvfølgelig i fella med å
 For å unngå å spørre potensielt hundrevis av ganger om listen har hode og hale, gjøres det i små while looper initielt.
 Ville egentlig brukt en for loop på nederste biten, men (i python kan du følge opp en for loop med "else" om den ikke har noen range) da fikk jeg ikke fanget opp (på en elegant måte) om rangen var lik 0, så ble nok en while loop der.
 
+
 ### Oppgave 2
 I oppgave 2a metoden toString() så brukte jeg en stringBuilder som spesifisert i oppgavetekst for å sette sammen generisk data til en string.
 Brukte tom() metoden som allerede var programmert opp i DobbeltLenketListe for å sjekke om listen var tom, i disse tilfellene blir en midlertidig node 
@@ -39,3 +40,6 @@ I oppgave 2b sjekker jeg først om bruker prøver å legge inn en null verdi, de
 Deretter lager jeg en ny node med verdien vi vil legge inn i liste, sjekker så for to tilfeller; 1. om listen allerede er tom og 2. om den ikke er det. 
 For tilfelle 1 setter vi hode lik ny node. For tilfelle 2 endrer vi neste peker for "gammel" hale til ny node og forrige peker til nye noden til hale.
 Til slutt, for begge tilfeller, setter vi hale lik ny node og inkrementerer variable antall og endringer med en. 
+
+### Oppgave 3
+I oppgave 3 [georg ikke glem å fylle ut denne]
