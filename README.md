@@ -42,7 +42,11 @@ For tilfelle 1 setter vi hode lik ny node. For tilfelle 2 endrer vi neste peker 
 Til slutt, for begge tilfeller, setter vi hale lik ny node og inkrementerer variable antall og endringer med en. 
 
 ### Oppgave 3
-I oppgave 3 [georg ikke glem å fylle ut denne]
+I oppgave 3 skulle jeg lage metodene:
+finnNode() (privat hjelpemetode)
+hent(), oppdater() og subliste(), samt tilpasse eksisterende fratilKontroll().
+finnNode() ble bygget på basis av [Programkode 3.3.3 a)](https://www.cs.hioa.no/~ulfu/appolonius/kap3/3/kap33.html#3.3.3)
+
 
 ### Oppgave 8
 I oppgave 8 a, b & d har jeg egentlig bare fulgt oppgavebeskrivelsene steg for steg. I deloppgave c satt jeg først denne noden til hode og anvende deretter en for-løkke
