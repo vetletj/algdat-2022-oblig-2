@@ -310,7 +310,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     @Override
-    public String toString() {
+    public String toString() { //Oppgave 2a
         StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
         sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
 
@@ -329,7 +329,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //throw new UnsupportedOperationException();
     }
 
-    public String omvendtString() {
+    public String omvendtString() { //Oppgave 2a
         StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
         sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
 
@@ -348,12 +348,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator() { //Oppgave 8b
+        return (Iterator<T>) new DobbeltLenketListeIterator(); // Usikker på om dette er riktig
+        //throw new UnsupportedOperationException();
     }
 
-    public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator(int indeks) { // Oppgave 8d
+        indeksKontroll(indeks, false); // Sjekker om indeks er loving, leggInn false da vi ikke skal legge inn noe i liste
+
+        //throw new UnsupportedOperationException();
+        return (Iterator<T>) new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
@@ -361,7 +365,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private boolean fjernOK;
         private int iteratorendringer;
 
-        private DobbeltLenketListeIterator() {
+        private DobbeltLenketListeIterator() {  // DENNE KONSTRUKTØREN ER FERDIGKODET I OPPGAVEN OG SKAL IKKE ENDRES
             denne = hode;     // p starter på den første i listen
             fjernOK = false;  // blir sann når next() kalles
             iteratorendringer = endringer;  // teller endringer
@@ -371,7 +375,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new UnsupportedOperationException();
         }
 
-        @Override
+        @Override                   // DENNE ER FERDIGKODET I OPPGAVEN OG SKAL IKKE ENDRES
         public boolean hasNext() {
             return denne != null;
         }
