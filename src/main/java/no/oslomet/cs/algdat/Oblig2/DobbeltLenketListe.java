@@ -292,8 +292,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public void nullstill() {
-        throw new UnsupportedOperationException();
+    public void nullstill()
+    {
+        Node<T> current = hode;
+        while (current.neste != null)
+        {
+            Node<T> temp = current.neste;
+            current.neste = null;
+            current.forrige = null;
+            current.verdi = null;
+            current = temp;
+        }
+        hode = hale = null;
+        endringer++;
+        antall = 0;
     }
 
 
@@ -377,7 +389,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     } // class DobbeltLenketListeIterator
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
+
     }
 
 } // class DobbeltLenketListe
