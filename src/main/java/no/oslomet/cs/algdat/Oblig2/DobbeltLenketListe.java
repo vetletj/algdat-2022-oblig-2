@@ -327,7 +327,40 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+        if(indeks >= antall || indeks < 0)
+            throw new IndexOutOfBoundsException("Indeks må være større enn 0 eller mindre enn "+ antall +"!");
+
+        if(indeks == 0)
+        {
+            Node<T> y = hode.neste;
+            T verdi = hode.verdi;
+            hode = new Node<>(y.verdi, null, y.neste);
+            antall--;
+            endringer++;
+            return verdi;
+        }
+        else if(indeks == antall)
+        {
+            Node<T> y = hale.forrige;
+            T verdi = hale.verdi;
+            hale = new Node<>(y.verdi, y.forrige, null);
+            antall--;
+            endringer++;
+            return verdi;
+        }
+        else
+        {
+            Node<T> y = hode;
+            for(int i = 0; i < indeks;i++) // Finner noden som skal slettes
+                y = y.neste;
+            T verdi = y.verdi;
+            y.forrige.neste = y.neste;
+            y.neste.forrige = y.forrige;
+            antall--;
+            endringer++;
+            return verdi;
+        }
+
     }
 
     @Override
