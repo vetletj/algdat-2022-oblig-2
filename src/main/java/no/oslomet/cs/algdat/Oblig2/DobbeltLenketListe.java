@@ -281,12 +281,81 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException();
+        if (verdi == null || antall == 0) // Sjekker for spesielle tilfeller hvor verdi ikke kan finnes eller listen er tom
+            return false;
+        Node<T> x = hode; // Testnode
+
+        while (x != null) { // Å bruke while lånte jeg av onlinekompendiet da min egen metode bare ble tull.
+            if (x.verdi.equals(verdi)) break;
+            x = x.neste;
+        }
+        if (x == null) return false;
+
+        if (antall == 1) { //Spesialtilfelle hvor det kun finnes ett element i listen.
+            hode = hale = null;
+            antall--;
+            endringer++;
+            return true;
+        } else if (x == hode) { //Tilfelle hvor hodet skal fjernes.
+            hode = hode.neste;
+            hode.forrige = null;
+            antall--;
+            endringer++;
+            return true;
+        } else if (x == hale) { // Tilfelle hvor hale skal fjernes.
+            hale = hale.forrige;
+            hale.neste = null;
+            antall--;
+            endringer++;
+            return true;
+        } else { // Tilfeldig node som ikke er hode eller hale skal slettes.
+            x.forrige.neste = x.neste;
+            x.neste.forrige = x.forrige;
+            antall--;
+            endringer++;
+            return true;
+        }
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+        if(indeks >= antall || indeks < 0) // Sjekker for indeksfeil.
+            throw new IndexOutOfBoundsException("Indeks må være større enn 0 eller mindre enn "+ antall +"!");
+        if(antall == 1){ //Spesialtilfelle hvor listen kun inneholder en verdi.
+            T verdi = hode.verdi;
+            hode = hale = null;
+            antall--;
+            endringer++;
+            return verdi;
+        }
+        else if(indeks == 0){ // Tilfelle hvor hodet skal fjernes.
+            T verdi = hode.verdi;
+            hode = hode.neste;
+            hode.forrige = null;
+            antall--;
+            endringer++;
+            return verdi;
+        }
+        else if(indeks == antall - 1){ //Tilfelle hvor halen skal fjernes.
+            T verdi = hale.verdi;
+            hale = hale.forrige;
+            hale.neste = null;
+            antall--;
+            endringer++;
+            return verdi;
+        }
+        else{ //Tilfelle hvor tilfeldig node som ikke er hode eller hale skal slettes.
+            Node<T> x = hode; //Testnode
+            for(int i = 0; i < indeks; i++) //Finner noden som skal slettes.
+                x = x.neste;
+            T verdi = x.verdi;
+            x.forrige.neste = x.neste;
+            x.neste.forrige = x.forrige;
+            antall--;
+            endringer++;
+            return verdi;
+        }
+
     }
 
     @Override
