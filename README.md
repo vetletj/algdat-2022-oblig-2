@@ -4,16 +4,17 @@ Denne oppgaven er en innlevering i Algoritmer og Datastrukturer.
 Oppgaven er levert av følgende studenter:
 * Navn Navnesen, S123456, s123456@oslomet.no
 * Georg Barlindhaug Ellingsen, s348655, s348655@oslomet.no
+* Vetle Tønsberg Johansen, S341540, s341540@oslomet.no
 
 # Arbeidsfordeling
 
 I oppgaven har vi hatt følgende arbeidsfordeling: // Her bør vi plukke oppgaver stigende og kikke på de foregående virker det som.
 
-* Georg har hatt hovedansvar for oppgavene: 1,  3,  #. 
+* Georg har hatt hovedansvar for oppgavene: 1,  3,  7. 
 * Vetle har hatt hovedansvar for oppgavene: 2,  8,  9. 
-* Sondre   har hatt hovedansvar for oppgave 4,  #,  #. 
-
+* Sondre   har hatt hovedansvar for oppgave 4,  5,  6. 
 * Vi har i fellesskap løst oppgave 10. 
+
 
 # Oppgavebeskrivelse
 
@@ -40,6 +41,10 @@ Deretter lager jeg en ny node med verdien vi vil legge inn i liste, sjekker så 
 For tilfelle 1 setter vi hode lik ny node. For tilfelle 2 endrer vi neste peker for "gammel" hale til ny node og forrige peker til nye noden til hale.
 Til slutt, for begge tilfeller, setter vi hale lik ny node og inkrementerer variable antall og endringer med en. 
 
+### Oppgave 3
+I oppgave 3 [georg ikke glem å fylle ut denne]
+
 ### Oppgave 8
 I oppgave 8 a, b & d har jeg egentlig bare fulgt oppgavebeskrivelsene steg for steg. I deloppgave c satt jeg først denne noden til hode og anvende deretter en for-løkke
 til å gå igjennom neste pekerne fram til vi nådde gitt indeks. Resten er copy-pase fra konstruktøren som var ferdig kodet.
+

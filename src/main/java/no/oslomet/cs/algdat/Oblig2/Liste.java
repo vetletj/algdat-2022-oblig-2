@@ -32,6 +32,21 @@ public interface Liste<T> extends Beholder<T> {
         return "Indeks: " + indeks + ", Antall: " + antall();
     }
 
+    /**
+     * kortversjon:
+     * Bruk denne for å sjekke at indeksen er "innafor".
+     * Mat den med indeksen du vil sjekke og parameteren false.
+     * Bruker du den med leggInn() er også siste indeks tillatt, og du bytter parameter til true.
+     *
+     * Beskrivelse hentet fra kapittel 3.2:
+     * "Default-metoden indeksKontroll(int, boolean) kan brukes av alle subklasser.
+     * Metoden leggInn(indeks,T) kan legge verdien bakerst, dvs. det er tillatt med indeks lik antall verdier i listen.
+     *      Da brukes true som parameter i indeksKontroll().
+     * Hvis det ikke er tillatt med indeks lik antall verdier, brukes false."
+     *
+     * @param indeks som skal sjekkes om "lovlig"
+     * @param leggInn sett denne til false med mindre du bruker metoden leggInn()
+     */
     public default void indeksKontroll(int indeks, boolean leggInn) {
         if (indeks < 0 ? true : (leggInn ? indeks > antall() : indeks >= antall())) {
             throw new IndexOutOfBoundsException(melding(indeks));
