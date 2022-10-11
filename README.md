@@ -42,10 +42,15 @@ For tilfelle 1 setter vi hode lik ny node. For tilfelle 2 endrer vi neste peker 
 Til slutt, for begge tilfeller, setter vi hale lik ny node og inkrementerer variable antall og endringer med en. 
 
 ### Oppgave 3
-I oppgave 3 skulle jeg lage metodene:
-finnNode() (privat hjelpemetode)
-hent(), oppdater() og subliste(), samt tilpasse eksisterende fratilKontroll().
-finnNode() ble bygget på basis av [Programkode 3.3.3 a)](https://www.cs.hioa.no/~ulfu/appolonius/kap3/3/kap33.html#3.3.3)
+I oppgave 3 skulle jeg lage metodene:finnNode(), hent(), oppdater() og subliste(), samt tilpasse eksisterende fratilKontroll().
+- finnNode() ble bygget på basis av [Programkode 3.3.3 a)](https://www.cs.hioa.no/~ulfu/appolonius/kap3/3/kap33.html#3.3.3) og la til muligheten til å lete bakfra.
+- hent() sjekker for gyldig indeks og bruker finnNode() for å returnere nodens verdi i gitte indeks.
+
+  - Her lagde jeg også en alternativ versjon som tar et ekstra argument, i tilfelle du vil hente noe i forbindelse med LeggInn, slik at indeksKontroll kan styres.
+- oppdater() legger unna eksisterende verdi ved hjelp av hent() og oppdaterer verdien direkte med finnNode(), før gammel verdi returneres.
+- subliste() er jeg litt usikker på. Klarer den å holde styr på hvilken liste sitt antall? Kanskje. Etter en indekssjekk går den gjennom listen og bruker leggInn(hent(i,true)), altså den alternative hent()-metoden.
+- fratilKontroll() var det om å gjøre å skrive alt på 1 linje. Her var jeg inspirert av indeksKontroll()s initielt komplett ulesbare kode, som ble ganske moro når den lot seg lese. Håper den fungerer da...
+
 
 
 ### Oppgave 4 
@@ -74,6 +79,15 @@ Public T fjern: Så og si en kopi av boolean fjern, men sjekker her at indeksen 
 hvilket tilfelle man har og ved hjelp av if statements. Oppdaterer forrige og neste node slik at noden vi ønsker
 å slette blir slettet. 
 
+### Oppgave 7
+nullstill()
+Lagre hva som er neste noder (om den finnes),
+så sletter vi alt i current før vi setter oss i neste og peker fremover igjen.
+Om neste ikke finnes setter vi hale = hode = null for å slette siste spor og oppdaterer variablene endringer og antall.
+
+```diff
+- Her venter jeg på en metode fra en annen oppgave for å teste alternativ nullstilling
+```
 
 ### Oppgave 8
 I oppgave 8 a, b & d har jeg egentlig bare fulgt oppgavebeskrivelsene steg for steg. I deloppgave c satt jeg først denne noden til hode og anvende deretter en for-løkke
