@@ -199,17 +199,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         else if(indeks == 0)
         {
             hode = new Node<>(verdi, null, hode);
+            hode.neste.forrige = hode;
         }
         else if (indeks == antall)
         {
             hale = new Node<>(verdi, hale, null);
+            hale.forrige.neste = hale;
         }
         else
         {
             Node<T> x = hode; // Testnode på indeks 0
-            for(int i = 0; i<indeks -1; i++)
-                x = x.neste;  // Flytter x til ønsket plassering - 1 av ny node
-            x.neste = new Node<>(verdi, x, x.neste);
+            for(int i = 0; i<indeks; i++)
+                x = x.neste;  // Flytter x til ønsket plassering av ny node
+            x = new Node<>(verdi, x.forrige, x);
+            x.forrige.neste = x;
+            x.neste.forrige = x;
         }
         antall++;
         endringer++;
