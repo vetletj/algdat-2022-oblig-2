@@ -4,9 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -160,8 +158,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * @return true om alt er greit
      */
     @Override
-    public boolean leggInn(T verdi) {
-    
+
+    public boolean leggInn(T verdi) { // Oppgave 2b
         Objects.requireNonNull(verdi); // Null-verdi er ikke tillatt å legge til, kontrollerer derfor med requireNonNull-metode fra klassen Objects
         Node<T> nyNode = new Node<>(verdi, null, null); // Lager ny node, med ny verdi, som skal legges inn bakerst i listen (peker ingen steder enda)
 
@@ -367,7 +365,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     @Override
-    public String toString() {
+    public String toString() { //Oppgave 2a
         StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
         sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
 
@@ -386,7 +384,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //throw new UnsupportedOperationException();
     }
 
-    public String omvendtString() {
+    public String omvendtString() { //Oppgave 2a
         StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
         sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
 
@@ -405,12 +403,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator() { //Oppgave 8b
+        return (Iterator<T>) new DobbeltLenketListeIterator(); // Usikker på om dette er riktig
+        //throw new UnsupportedOperationException();
     }
 
-    public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator(int indeks) { // Oppgave 8d
+        indeksKontroll(indeks, false); // Sjekker om indeks er loving, leggInn false da vi ikke skal legge inn noe i liste
+
+        //throw new UnsupportedOperationException();
+        return (Iterator<T>) new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
@@ -424,8 +426,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             iteratorendringer = endringer;  // teller endringer
         }
 
-        private DobbeltLenketListeIterator(int indeks) {
-            throw new UnsupportedOperationException();
+        private DobbeltLenketListeIterator(int indeks) { // Oppgave 8c
+            denne = hode;     // setter først pekern denne til hode
+            for (int i = 0; i < indeks; i++) {
+                denne = denne.neste; // starter ved hode og peker til neste node fram til vi kommer til indeks
+            }
+            // Resten er som i konstruktøren som var ferdigkodet
+            fjernOK = false;  // blir sann når next() kalles
+            iteratorendringer = endringer;  // teller endringer
+
+            //throw new UnsupportedOperationException();
         }
 
         @Override
@@ -434,8 +444,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         @Override
-        public T next() {
-            throw new UnsupportedOperationException();
+        public T next() { // Oppgave 8a
+            if (iteratorendringer != endringer) { //Sjekker først om iteratorendringer er lik endringer.
+                throw new ConcurrentModificationException(); // Hvis ikke, kastes en ConcurrentModificationException.
+            }
+            if (!hasNext()) { // hvis det ikke er flere igjen i listen (dvs. hvis hasNext() ikke er sann/true)
+                throw new NoSuchElementException(); // Så en NoSuchElementException
+            }
+            fjernOK = true; // Deretter settes fjernOK til sann/true
+            T tempVerdi = denne.verdi; // Setter verdien til denne lik midlertidig verdi
+            denne = denne.neste; // denne flyttes til den neste node
+            return tempVerdi; // verdien til denne returneres
+            //throw new UnsupportedOperationException();
         }
 
         @Override

@@ -10,14 +10,11 @@ Oppgaven er levert av følgende studenter:
 
 I oppgaven har vi hatt følgende arbeidsfordeling: // Her bør vi plukke oppgaver stigende og kikke på de foregående virker det som.
 
-
-
 * Georg har hatt hovedansvar for oppgavene: 1,  3,  7. 
 * Vetle har hatt hovedansvar for oppgavene: 2,  8,  9. 
 * Sondre   har hatt hovedansvar for oppgave 4,  5,  6. 
-
-
 * Vi har i fellesskap løst oppgave 10. 
+
 
 # Oppgavebeskrivelse
 
@@ -30,8 +27,6 @@ konstruktør liste : Her begynte morroa og jeg gikk selvfølgelig i fella med å
 
 For å unngå å spørre potensielt hundrevis av ganger om listen har hode og hale, gjøres det i små while looper initielt.
 Ville egentlig brukt en for loop på nederste biten, men (i python kan du følge opp en for loop med "else" om den ikke har noen range) da fikk jeg ikke fanget opp (på en elegant måte) om rangen var lik 0, så ble nok en while loop der.
-
-
 
 ### Oppgave 2
 I oppgave 2a metoden toString() så brukte jeg en stringBuilder som spesifisert i oppgavetekst for å sette sammen generisk data til en string.
@@ -48,4 +43,8 @@ Til slutt, for begge tilfeller, setter vi hale lik ny node og inkrementerer vari
 
 ### Oppgave 3
 I oppgave 3 [georg ikke glem å fylle ut denne]
+
+### Oppgave 8
+I oppgave 8 a, b & d har jeg egentlig bare fulgt oppgavebeskrivelsene steg for steg. I deloppgave c satt jeg først denne noden til hode og anvende deretter en for-løkke
+til å gå igjennom neste pekerne fram til vi nådde gitt indeks. Resten er copy-pase fra konstruktøren som var ferdig kodet.
 
