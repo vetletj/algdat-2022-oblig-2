@@ -283,79 +283,76 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
+        if (verdi == null || antall == 0) // Sjekker for spesielle tilfeller hvor verdi ikke kan finnes eller listen er tom
+            return false;
         Node<T> x = hode; // Testnode
-        int indeks = -1;
-        for(int i = 0; i<antall; i++){
-            if(x.verdi.equals(verdi)) {
-                indeks = i;
-                break;
-            }
+
+        while (x != null) { // Å bruke while lånte jeg av onlinekompendiet da min egen metode bare ble tull.
+            if (x.verdi.equals(verdi)) break;
             x = x.neste;
         }
-        if(indeks == -1)
-            return false;
+        if (x == null) return false;
 
-        if(indeks == 0)
-        {
-            Node<T> y = hode.neste;
-            hode = new Node<>(y.verdi, null, y.neste);
+        if (x == hode && hode == hale) {
+            hode = hale = null;
+            antall--;
+            endringer++;
+            return true;
+        } else if (x == hode) {
+            hode = hode.neste;
+            hode.forrige = null;
+            antall--;
+            endringer++;
+            return true;
+        } else if (x == hale) {
+            hale = hale.forrige;
+            hale.neste = null;
+            antall--;
+            endringer++;
+            return true;
+        } else {
+            x.forrige.neste = x.neste;
+            x.neste.forrige = x.forrige;
             antall--;
             endringer++;
             return true;
         }
-        else if(indeks == antall)
-        {
-            Node<T> y = hale.forrige;
-            hale = new Node<>(y.verdi, y.forrige, null);
-            antall--;
-            endringer++;
-            return true;
-        }
-        else
-        {
-            Node<T> y = hode;
-            for(int i = 0; i < indeks;i++) // Finner noden som skal slettes
-                y = y.neste;
-            y.forrige.neste = y.neste;
-            y.neste.forrige = y.forrige;
-            antall--;
-            endringer++;
-            return true;
-        }
-
     }
 
     @Override
     public T fjern(int indeks) {
-        if(indeks >= antall || indeks < 0)
+        if(indeks >= antall || indeks < 0) // Sjekker for indeksfeil.
             throw new IndexOutOfBoundsException("Indeks må være større enn 0 eller mindre enn "+ antall +"!");
-
-        if(indeks == 0)
-        {
-            Node<T> y = hode.neste;
+        if(antall == 1){
             T verdi = hode.verdi;
-            hode = new Node<>(y.verdi, null, y.neste);
+            hode = hale = null;
             antall--;
             endringer++;
             return verdi;
         }
-        else if(indeks == antall)
-        {
-            Node<T> y = hale.forrige;
+        else if(indeks == 0){
+            T verdi = hode.verdi;
+            hode = hode.neste;
+            hode.forrige = null;
+            antall--;
+            endringer++;
+            return verdi;
+        }
+        else if(indeks == antall - 1){
             T verdi = hale.verdi;
-            hale = new Node<>(y.verdi, y.forrige, null);
+            hale = hale.forrige;
+            hale.neste = null;
             antall--;
             endringer++;
             return verdi;
         }
-        else
-        {
-            Node<T> y = hode;
-            for(int i = 0; i < indeks;i++) // Finner noden som skal slettes
-                y = y.neste;
-            T verdi = y.verdi;
-            y.forrige.neste = y.neste;
-            y.neste.forrige = y.forrige;
+        else{
+            Node<T> x = hode; //Testnode
+            for(int i = 0; i < indeks; i++) //Finner noden som skal slettes.
+                x = x.neste;
+            T verdi = x.verdi;
+            x.forrige.neste = x.neste;
+            x.neste.forrige = x.forrige;
             antall--;
             endringer++;
             return verdi;
