@@ -66,6 +66,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if (a[i] != null)
             {
                 hale = new Node<>(a[i], hode, null);
+                hode.neste = hale;
                 antall++;
             }
             i++;
@@ -120,9 +121,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     }
 
-        //for (T value : a) if (value != null) leggInn(value); // Får vente med denne til en annen anledning
-
-
 
     public Liste<T> subliste(int fra, int til)  // Nå jobber jeg her
     {
@@ -136,6 +134,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     /**
      * @antall er en variabel vi oppdaterer i funksjonene:
+     * @tom() returnerer true hvis liste er tom og false hvis den ikke er det
      * @leggInn() øker antall
      * @fjern() senker antall
      * @nullstill() nullstiller antall
@@ -162,34 +161,62 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      */
     @Override
     public boolean leggInn(T verdi) {
-        // Inspirert av Programkode 3.3.2 f)
-        Objects.requireNonNull(verdi, "verdi = null!");
+    
+        Objects.requireNonNull(verdi); // Null-verdi er ikke tillatt å legge til, kontrollerer derfor med requireNonNull-metode fra klassen Objects
+        Node<T> nyNode = new Node<>(verdi, null, null); // Lager ny node, med ny verdi, som skal legges inn bakerst i listen (peker ingen steder enda)
 
-        // Ok, her kommer en munnfull:
-        // Så vår nye hale "Future" er gamle hale "Oldtimer" sin ".neste" node. Vi har da ikke endret "Oldtimer" sin verdi.
-        // "Future"-noden, som ikke har fått et eget navn,
-        // får verdien fra funksjonen vår leggInn(verdi), samt en peker til venstre som refererer til "Oldtimer"-noden.
-        // I retning høyre peker vår nye "Future" på null ->(defacto er nå "future" den nye halen) OR IS IT?
-
-
-        if (!tom()) {
-            hale = hale.neste = new Node<>(verdi, hale, null);
-            antall++;
-        }
-        else {
-            hode = hale = new Node<>(verdi, null, null);
-            antall = 1;
+        if (tom() & hale == null & hode == null) { // Tilfelle 1 - listen er på forhånd tom
+            hode = nyNode; // Ettersom listen er tom vil nye noden og hode være samme
         }
 
+        else { // Tilfelle 2 - listen er ikke tom så vi oppdaterer kun hale ettersom vi legger til ny node bakerst i liste
+            hale.neste = nyNode; // gamle hale skal peke på ny hale
+            nyNode.forrige = hale; // ny hale må peke tilbake på gammel hale
+        }
 
+        hale = nyNode; // I begge tilfeller vil hale være nye noden da vi skal legge den inn bakerst
+
+        antall++; // Inkrementerer antall ettersom vi får en ekstra node i listen
+        endringer++; // Inkrementerer endringer ettersom vi har utført en endring i listen
 
         return true;
-
     }
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
+        if (verdi == null)
+            throw new NullPointerException("Verdi er null.");
+        if (indeks < 0 || indeks > antall) {
+            if (indeks < 0)
+                throw new IndexOutOfBoundsException("Indeks er mindre enn 0.");
+            else
+                throw new IndexOutOfBoundsException("Indeks er større enn antall.");
+        }
+
+        if (hode == null && hale == null){
+            hode = hale = new Node<>(verdi, null, null);
+        }
+        else if(indeks == 0)
+        {
+            hode = new Node<>(verdi, null, hode);
+            hode.neste.forrige = hode;
+        }
+        else if (indeks == antall)
+        {
+            hale = new Node<>(verdi, hale, null);
+            hale.forrige.neste = hale;
+        }
+        else
+        {
+            Node<T> x = hode; // Testnode på indeks 0
+            for(int i = 0; i<indeks; i++)
+                x = x.neste;  // Flytter x til ønsket plassering av ny node
+            x = new Node<>(verdi, x.forrige, x);
+            x.forrige.neste = x;
+            x.neste.forrige = x;
+        }
+        antall++;
+        endringer++;
     }
     /**
      * @inneholder Checks if value is found in a list.
@@ -302,13 +329,43 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
+        sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
+
+        if (!tom()) {
+            Node<T> tempNode = hode; // Lager ny midlertidig node class med generisk veri og setter den til hode noden i vår doblet lenket liste
+            sb.append(tempNode.verdi); // Setter første verdi fra dobbelLenketListe inn i stringBuilder
+            tempNode = tempNode.neste; // Går vidre til neste node i liste
+
+            while (tempNode != null) { // Sjekker om det er enden av listen, hvis ikke fortsetter vi å legge til verdiene til nodene i sb
+                sb.append(", " + tempNode.verdi); // Legger til node data i string sb
+                tempNode = tempNode.neste; // Går vidre til neste node
+            }
+        }
+        sb.append(']'); // Vi kom til enden av listen og legger da til klammeparantes for å lukke liste
+        return sb.toString(); // Returnerer hele stringen
+        //throw new UnsupportedOperationException();
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+        StringBuilder sb = new StringBuilder(); // Vanlig concatination for generiske verdier. Trenger ikke sette capacity da stringBuilder justerer seg selv hvis vi går over
+        sb.append('['); // Alle lister, uansett om den er tom, skal stare med klammeparantes ( [ )
+
+        if (!tom()) {
+            Node<T> tempNode = hale; // Lager ny midlertidig node class med generisk veri og setter den til hale noden i vår doblet lenket liste
+            sb.append(tempNode.verdi); // Setter første verdi fra dobbelLenketListe inn i stringBuilder
+            tempNode = tempNode.forrige; // Går bakover til forrige node i liste
+
+            while (tempNode != null) { // Sjekker om det er starten av listen, hvis ikke fortsetter vi å legge til verdiene til nodene i sb
+                sb.append(", " + tempNode.verdi); // Legger til node data i string sb
+                tempNode = tempNode.forrige; // Går bakover til forrige node
+            }
+        }
+        sb.append(']'); // Vi kom til starten av listen og legger da til klammeparantes for å lukke liste
+        return sb.toString(); // Returnerer hele stringen
     }
 
     @Override
