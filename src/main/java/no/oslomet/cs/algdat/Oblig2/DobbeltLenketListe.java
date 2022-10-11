@@ -286,9 +286,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> x = hode; // Testnode
         int indeks = -1;
         for(int i = 0; i<antall; i++){
-            if(x.verdi.equals(verdi))
+            if(x.verdi.equals(verdi)) {
                 indeks = i;
                 break;
+            }
             x = x.neste;
         }
         if(indeks == -1)
@@ -298,12 +299,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         {
             Node<T> y = hode.neste;
             hode = new Node<>(y.verdi, null, y.neste);
+            antall--;
+            endringer++;
             return true;
         }
         else if(indeks == antall)
         {
             Node<T> y = hale.forrige;
             hale = new Node<>(y.verdi, y.forrige, null);
+            antall--;
+            endringer++;
             return true;
         }
         else
@@ -311,11 +316,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             Node<T> y = hode;
             for(int i = 0; i < indeks;i++) // Finner noden som skal slettes
                 y = y.neste;
-            y.forrige = new Node<>(y.forrige.verdi,y.forrige.forrige,y.neste);
-            y.neste = new Node<>(y.neste.verdi,y.forrige,y.neste.neste);
+            y.forrige.neste = y.neste;
+            y.neste.forrige = y.forrige;
+            antall--;
+            endringer++;
             return true;
         }
-
 
     }
 
