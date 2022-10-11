@@ -120,7 +120,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
 
-    public Liste<T> subliste(int fra, int til)  // Nå jobber jeg her
+    public Liste<T> subliste(int fra, int til)  //
     {
         fratilKontroll(fra,til);
         Liste<T> liste = new DobbeltLenketListe<>();
@@ -242,7 +242,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
 
-    public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med hent
+    public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med leggInn
     {
         indeksKontroll(indeks, toggle);        // sjekker index-range hvor til er tillatt = antall.
         return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
@@ -408,9 +408,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     } // class DobbeltLenketListeIterator
 
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
 
-    }
+    /**
+     *
+     * @param liste kan f.eks være DobbeltLenketListe<> eller EnkeltLenketListe<> etc.
+     * @param c     kan f.eks være Comparator.naturalOrder()
+     * @param <T>
+     */
+    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
+        throw new UnsupportedOperationException();
+
+        }
+
+
+
 
 } // class DobbeltLenketListe
 
