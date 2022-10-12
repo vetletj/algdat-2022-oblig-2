@@ -29,6 +29,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
     }
 
+
     // instansvariabler
     private Node<T> hode;          // peker til den første i listen
     private Node<T> hale;          // peker til den siste i listen
@@ -374,6 +375,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         endringer++;
         antall = 0;
     }
+    // Alternativ versjon under som viste seg å være betydelig tregere:
+    //public void nullstill()
+    //{
+    //    Node<T> current = hode;
+    //    Node<T> temp;
+//
+    //    while (current.neste != null)
+    //    {
+    //        temp = current.neste;
+    //        fjern(0);
+    //        current = temp;
+    //    }
+    //    hode = hale = null;
+    //    endringer++;
+    //    antall--;
+//
+    //}
+
+
 
 
     @Override
