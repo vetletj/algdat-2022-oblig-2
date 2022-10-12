@@ -109,3 +109,4 @@ til å gå igjennom neste pekerne fram til vi nådde gitt indeks. Resten er copy
 
 ### Oppgave 10
 Her hadde jeg nok hatt nytte av å ha gjort oppgave 8 først. Mangler nok en del grunnleggende java-skills, men kom meg i gang med å se på [pratik_patil](https://leetcode.com/problems/sort-list/discuss/212231/Java-Solutions-for-Four-Sorting-Algorithms-on-Linked-List) og da spesielt hans spennende for-loops.
+[update] fail timed out...
