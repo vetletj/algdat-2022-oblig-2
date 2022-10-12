@@ -456,8 +456,46 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     } // class DobbeltLenketListeIterator
 
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
+    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) // Virker ikke...
+    {
+        //throw new UnsupportedOperationException();}
+
+        // Tanken er som følger:
+        // Lagre unna en maks-verdi:
+        // om current < current.forrige -> leggInn i begynnelsen
+        // om current > maks-verdi -> leggInn på slutten av listen oppdater maks-verdi
+        //Iterator<T> i = liste.iterator();
+        //System.out.println(liste.antall());
+        //T current = i.next();
+        T min = liste.hent(0);
+        T maks = liste.hent(liste.antall()-1);
+        T previous;
+        int newToOld;
+        int indexSmallest= 0;
+        int indexLargest = liste.antall()-1;
+
+        // prøver noe nytt
+        //
+        // Iterating over collection 'c' using iterator
+        int indexToSort = 0;
+        for (T toSort : liste) {
+            indexToSort++;              // Om vi finner noe gull ligger den på index...
+            int indexOriginal = 0;
+            for (T original : liste) {
+                indexOriginal++;        // Om vi finner noe gull ligger den på index...
+                newToOld = c.compare(toSort,original);
+                switch (newToOld)
+                {
+                    case -1:            // Smaller : The item to be sorted is less than the item in original list.
+                        indexSmallest = indexOriginal;
+                        break;
+                    case 1:             // Greater : The item to be sorted is greater than the item in original list.
+                        indexLargest = indexOriginal;
+                        break;
+                    default:            // Equal : else it is equal (I hope)
+                }
+            }
+        }
     }
 
 } // class DobbeltLenketListe
