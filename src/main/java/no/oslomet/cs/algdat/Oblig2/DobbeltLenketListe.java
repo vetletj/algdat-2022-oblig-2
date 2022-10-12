@@ -512,23 +512,43 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // om current < current.forrige -> leggInn i begynnelsen
         // om current > maks-verdi -> leggInn på slutten av listen oppdater maks-verdi
         Iterator<T> i = liste.iterator();
+        //System.out.println(liste.antall());
         T current = i.next();
+        T min = current;
         T maks = current;
         T previous;
-        System.out.println(c.compare(current,maks));
+        T temp;
+        String
+
 
         while (i.hasNext()) {
             int scale = c.compare(current,maks);
-            switch (scale){
 
-                case 1:
-                    maks = current;
-                    //current større enn maks, så vi må flytte denne noden til hale
-                case -1:
+            switch (scale)
+            {
+
+                case 1:             // current større enn maks, så vi må flytte denne noden til hale,
+                                    // ... men å flytte en node er veldig kostbart så hva med å mellomlagre verdien i hale
+                                    // og endre verdiene og ikke noden?
+                    previous = current;
+                    temp = liste.oppdater(liste.antall()-1,current); // setter inn current bakerst, og lagrer bakerstverdien som den nye som skal behandles.
+                    maks = current; // Setter ny maksverdi for settet.
+                    current = temp; // verdien som lå sist i listen er den verdien som nå blir behandlet neste gang.
+                    break;
+                case -1:            //current er mindre enn maks: Sjekker om current er mindre enn den foran
+
                     //current mindre enn maks
-                    if(c.compare(previous,current)==1) //Sjekker om current er mindre enn den foran
-                default:
+                    if(c.compare(previous,current)==1)
+                    {
+                        min = current;
 
+                    }
+                    previous = current;
+                case 0:
+                    break;
+            }
+
+            current = i.next();
 
             }
 
