@@ -106,6 +106,10 @@ Tydelig at vi ikke skal bruke den fjern-metoden vi har her, men utelukker ikke a
 I oppgave 8 a, b & d har jeg egentlig bare fulgt oppgavebeskrivelsene steg for steg. I deloppgave c satt jeg først denne noden til hode og anvende deretter en for-løkke
 til å gå igjennom neste pekerne fram til vi nådde gitt indeks. Resten er copy-pase fra konstruktøren som var ferdig kodet.
 
+### Oppgave 9
+Her har vi allerede funnet noden som skal slettes ved andre metoder. Først og fremst kaster vi noen exceptions om noden ikke kan fjernes.
+Noden som gjelder er denne.forrige. Vi lager en "testnode" og bruker denne til å fjerne noden vi ønsker. Dette gjøres ved å
+manipulere enten hode, hale eller forrige og neste om noden ligger midt inni lista. 
 
 ### Oppgave 10
 Her hadde jeg nok hatt nytte av å ha gjort oppgave 8 først. Mangler nok en del grunnleggende java-skills, men kom meg i gang med å se på [pratik_patil](https://leetcode.com/problems/sort-list/discuss/212231/Java-Solutions-for-Four-Sorting-Algorithms-on-Linked-List) og da spesielt hans spennende for-loops.
