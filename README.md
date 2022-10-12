@@ -85,11 +85,32 @@ Lagre hva som er neste noder (om den finnes),
 så sletter vi alt i current før vi setter oss i neste og peker fremover igjen.
 Om neste ikke finnes setter vi hale = hode = null for å slette siste spor og oppdaterer variablene endringer og antall.
 
-```diff
-- Her venter jeg på en metode fra en annen oppgave for å teste alternativ nullstilling
-```
+For å gjøre speed test installerte jeg Spot Profiler-pluginen til intelliJ:
+long start = System.nanoTime();
+liste.nullstill();
+long end = System.nanoTime();
+System.out.println("time wasted: " + (end - start));
+En liste på f.eks 48 items tok i snitt 9µs ved bruk av metoden fjern(0) (kodet i oppgave 6)
+Samme lengde liste tok i snitt 4,2µs
+Resultat:
+listelengde | måte 1 (µs) | måte 2 Fjern(0) (µs)** | størrelsesforhold
+--- | --- | --- | ---
+48 | 4,2 | 9 | 2,14
+96 | 5,5 | 15 |2,73
+192 | 8,5 | 25,5 | 3,00
+384 | 14 | 51 |3,64
+
+Tydelig at vi ikke skal bruke den fjern-metoden vi har her, men utelukker ikke at andre metoder er bedre.
 
 ### Oppgave 8
 I oppgave 8 a, b & d har jeg egentlig bare fulgt oppgavebeskrivelsene steg for steg. I deloppgave c satt jeg først denne noden til hode og anvende deretter en for-løkke
 til å gå igjennom neste pekerne fram til vi nådde gitt indeks. Resten er copy-pase fra konstruktøren som var ferdig kodet.
 
+### Oppgave 9
+Her har vi allerede funnet noden som skal slettes ved andre metoder. Først og fremst kaster vi noen exceptions om noden ikke kan fjernes.
+Noden som gjelder er denne.forrige. Vi lager en "testnode" og bruker denne til å fjerne noden vi ønsker. Dette gjøres ved å
+manipulere enten hode, hale eller forrige og neste om noden ligger midt inni lista. 
+
+### Oppgave 10
+Her hadde jeg nok hatt nytte av å ha gjort oppgave 8 først. Mangler nok en del grunnleggende java-skills, men kom meg i gang med å se på [pratik_patil](https://leetcode.com/problems/sort-list/discuss/212231/Java-Solutions-for-Four-Sorting-Algorithms-on-Linked-List) og da spesielt hans spennende for-loops.
+[update] fail timed out...

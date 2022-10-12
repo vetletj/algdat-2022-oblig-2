@@ -79,55 +79,49 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
             i++;
         }
-
-
     }
 
-    private Node<T> finnNode(int indeks)                // Tok utgangspunkt i koden Programkode 3.3.3 a)
-    {
+    private Node<T> finnNode(int indeks) { // Oppgave 3a - Tok utgangspunkt i koden Programkode 3.3.3 a)
         Node<T> p = hode;           // Lager en referanse til index 0
-        if (indeks < (antall/2))
-        {
-
+        if (indeks < (antall/2)) { // indeks mindre enn antall/2 --> leting starter fra hode
             int i = 0;
             if (indeks == i) return p;
-            while (i < indeks)
-            {
-                p = p.neste;
-                i++;
+            while (i < indeks) {
+                p = p.neste; // peker på neste node (fra hode) fram til vi når indeks
+                i++; // inkrementerer i fram til vi når indeks
             }
         }
-
-        else
-        {
-            p = hale;
-            int i = antall-1;
+        else { // Indeks større enn antall/2 --> leting starter fra hale
+            p = hale; // peker ny node på hale
+            int i = antall-1; // indeks starter på 0, derfor antall-1
             if (indeks == i) return p;
-            while (i > indeks)
-            {
-                p = p.forrige;
-                i--;
+            while (i > indeks) {
+                p = p.forrige; // peker på forrige node (fra hale) fram til vi når indeks
+                i--; // dekremerer i fram til vi når indeks
             }
-
-        }     // Alternativt begynner vi bakfra
+        }
         return p;
     }
-    private void fratilKontroll(int fra, int til)       // Utgangspunkt fra Programkode 1.2.3 a)
-    {
-        if (fra < 0 || (til >= antall || (fra > til))) {   // Her vinner jeg nok ingen konkurranse i lesbarhet...
-            throw new IndexOutOfBoundsException("Fra "+ fra +" til " +til+ " fungerer ikke sammen med lengde: "+antall);
-        }
-
+    private void fratilKontroll(int antall, int fra, int til) {      // Kopiert fra Programkode 1.2.3 a)
+        if (fra < 0)                                  // fra er negativ
+            throw new IndexOutOfBoundsException
+                    ("fra(" + fra + ") er negativ!");
+        if (til > antall)                          // til er utenfor tabellen
+            throw new IndexOutOfBoundsException
+                    ("til(" + til + ") > antall(" + antall + ")");
+        if (fra > til)                                // fra er større enn til
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
     }
 
 
-    public Liste<T> subliste(int fra, int til)  //
-    {
-        fratilKontroll(fra,til);
-        Liste<T> liste = new DobbeltLenketListe<>();
-        // HER MISTENKER JEG AT VI KAN FÅ BRUK FOR nullstill() siden antall kommer til å gå i spagat eller noe.
 
-        for (int i = fra; i <= til; i++) leggInn(hent(i,true));              // Bruker alternativ hent()- metode.
+    public Liste<T> subliste(int fra, int til) {
+        fratilKontroll(antall, fra, til);
+        Liste<T> liste = new DobbeltLenketListe<>();
+        for (int i = fra; i < til; i++) {
+            liste.leggInn(hent(i,true));              // Bruker alternativ hent()- metode.
+        }
         return liste;
     }
 
@@ -237,8 +231,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * @return
      */
     @Override
-    public T hent(int indeks)                   // Hent element som befinner seg ved indeks:
-    {
+    public T hent(int indeks) {      // Oppgave 3a - Hent element som befinner seg ved indeks:
         indeksKontroll(indeks, false);  // Sjekk at indeks er gyldig. Hold mus over indeksKontroll(), har prøvd å forklare.
         return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
@@ -270,11 +263,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public T oppdater(int indeks, T nyverdi)
-    {
+    public T oppdater(int indeks, T nyverdi) { // Oppgave 3a
         Objects.requireNonNull(nyverdi, "verdi = null!");
-        T initialValue = hent(indeks);      // Lagrer unna eksisterende verdi først
-        finnNode(indeks).verdi = nyverdi;   // finnNode returnerer aktuell node, så vi kan her oppdatere den direkte?
+        T initialValue = hent(indeks);      // Henter eksisterende verdi på plass indeks først og lagrer verdi til initialValue generisk variable
+        finnNode(indeks).verdi = nyverdi;   // finnNode returnerer aktuell node, så vi oppdaterer verdien til denne noden med nyverdi
         endringer++;                        // Dette teller som 1 endring
         return initialValue;
     }
@@ -492,7 +484,36 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            if(fjernOK == false)
+                throw new IllegalStateException("Kan ikke fjerne verdi.");
+            if (iteratorendringer != endringer)
+                throw new ConcurrentModificationException("Kan ikke fjerne verdi.");
+            fjernOK = false; // Kan ikke fjerne samme verdi flere ganger.
+
+            Node<T> x = hode; // Testnode
+
+            if(antall == 1) // Finnes bare en node og denne skal slettes
+                hode = hale = null;
+           else if(denne == null) { // Siste skal fjernes
+                x = hale;
+                hale = hale.forrige;
+                hale.neste = null;
+            }
+           else if(denne.forrige == hode){ // Første skal fjernes
+                x = hode;
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+            else{ // Random node som ikke er hode eller hale skal fjernes
+                x = denne.forrige;
+                x.neste.forrige = x.forrige;
+                x.forrige.neste = x.neste;
+            }
+            antall--;
+            endringer++;
+            iteratorendringer++;
+
+
         }
 
     } // class DobbeltLenketListeIterator
@@ -506,8 +527,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      */
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c)
     {
-        //throw new UnsupportedOperationException();}
-
+        if (liste.tom()) return;
         // Tanken er som følger:
         // Lagre unna en maks-verdi:
         // om current < current.forrige -> leggInn i begynnelsen
@@ -545,78 +565,5 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
         }
     }
-
-        //
-
-
-//        while (i.hasNext()) {
-//            int scale = c.compare(current,maks);
-//
-//            switch (scale)
-//            {
-//
-//                case 1:             // current større enn maks, så vi må flytte denne noden til hale,
-//                                    // ... men å flytte en node er veldig kostbart så hva med å mellomlagre verdien i hale
-//                                    // og endre verdiene og ikke noden?
-//                    previous = current;
-//                    maks = current; // Setter ny maksverdi for settet.
-//                    current = liste.oppdater(liste.antall()-1,current); // setter inn current bakerst, og lagrer bakerstverdien som den nye som skal behandles.
-//
-//                                     // verdien som lå sist i listen er den verdien som nå blir behandlet neste gang.
-//                    break;
-//                case -1:            //current er mindre enn maks: Sjekker om current er mindre enn den foran
-//
-//                    //current mindre enn maks
-//                    previous = current;
-//                    if(c.compare(previous,current)==1)
-//                    {
-//                        if (c.compare(min,current)==1)
-//                        {
-//                            min = current;
-//                            current = liste.oppdater(0,current);
-//                        }
-//                        else
-//                        {
-//
-//
-//                        }
-//
-//                    }
-//                    previous = current;
-//                case 0:
-//                    break;
-//            }
-//
-//            current = i.next();
-//
-//            }
-//
-//            if (c.compare(current,maks) >= 1){
-//                // Current er større enn maks og skal sendes til hale
-//            }
-//            else if ()
-//
-//
-//
-//            }
-//
-//
-
-
-
-
-
-
-//        for(Node<T> current = liste.hent(0); current != null; current = current.next)
-//        {
-//            swap(current, findMinimumNode(current));
-//        }
-//        return head;
-//        }
-
-
-
-
 } // class DobbeltLenketListe
-
 
