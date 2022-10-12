@@ -525,44 +525,35 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * @param c     kan f.eks være Comparator.naturalOrder()
      * @param <T>
      */
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c)
-    {
-        if (liste.tom()) return;
-        // Tanken er som følger:
-        // Lagre unna en maks-verdi:
-        // om current < current.forrige -> leggInn i begynnelsen
-        // om current > maks-verdi -> leggInn på slutten av listen oppdater maks-verdi
-        //Iterator<T> i = liste.iterator();
-        //System.out.println(liste.antall());
-        //T current = i.next();
-        T min = liste.hent(0);
-        T maks = liste.hent(liste.antall()-1);
-        T previous;
-        int newToOld;
-        int indexSmallest= 0;
-        int indexLargest = liste.antall()-1;
+    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) { // Kode funnet på nett - kommentert så godt det lar seg gjøre
+        if (liste.tom()) return; // Unntak for tom liste
 
-        // prøver noe nytt
-       //
-        // Iterating over collection 'c' using iterator
-        int indexToSort = 0;
-        for (T toSort : liste) {
-            indexToSort++;              // Om vi finner noe gull ligger den på index...
-            int indexOriginal = 0;
-            for (T original : liste) {
-                indexOriginal++;        // Om vi finner noe gull ligger den på index...
-                newToOld = c.compare(toSort,original);
-                switch (newToOld)
-                {
-                    case -1:            // Smaller : The item to be sorted is less than the item in original list.
-                        indexSmallest = indexOriginal;
-                        break;
-                    case 1:             // Greater : The item to be sorted is greater than the item in original list.
-                        indexLargest = indexOriginal;
-                        break;
-                    default:            // Equal : else it is equal (I hope)
-                }
+        // Utgangspunkt i oblig 1 - quicksort
+        T temp_swap;
+        T pivot = liste.hent(liste.antall() - 1); // Velger pivot til å være siste element i array som i forelesningsvideo
+        int leftP = 0;
+        int rightP = liste.antall() - 1;
+        T leftPointer = liste.hent(leftP);
+        T rightPointer = liste.hent(rightP);
+
+
+        while (leftP < rightP) { // <=> (leftPointer < rightPointer)
+
+            //      (a[leftPointer] <= pivot && leftPointer < rightPointer)
+            while (c.compare(leftPointer, pivot) <= 0 && c.compare(leftPointer, rightPointer) < 0) { //Leter etter element som er større en pivot
+                leftP++; // inkrementerer fram til vi finner et element som er større en pivot, når vi finner det vil a[leftPointer] peke på den verdien
             }
+            //      (a[rightPointer] >= pivot && leftPointer < rightPointer)
+            while (c.compare(rightPointer, pivot) >= 0 && c.compare(leftPointer, rightPointer) < 0) { // Leter etter element i array som er mindre en pivot
+                rightP--;
+            }
+            // Bytter plass på leftPointer og rightPointer
+            if (leftP != rightP) {
+                temp_swap = liste.hent(leftP);
+                liste.oppdater(leftP, liste.hent(rightP));
+                liste.oppdater(rightP, temp_swap);
+            } else
+                break;
         }
     }
 } // class DobbeltLenketListe
