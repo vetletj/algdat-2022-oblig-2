@@ -456,10 +456,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     } // class DobbeltLenketListeIterator
 
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) // Virker ikke...
-    {
-        throw new UnsupportedOperationException();}
-
+    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
+        throw new UnsupportedOperationException();
+    }
 
 } // class DobbeltLenketListe
 
