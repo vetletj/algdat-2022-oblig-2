@@ -505,9 +505,55 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * @param <T>
      */
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
 
-        }
+
+        // Tanken er som følger:
+        // Lagre unna en maks-verdi:
+        // om current < current.forrige -> leggInn i begynnelsen
+        // om current > maks-verdi -> leggInn på slutten av listen oppdater maks-verdi
+        Iterator<T> i = liste.iterator();
+        T current = i.next();
+        T maks = current;
+        T previous;
+        System.out.println(c.compare(current,maks));
+
+        while (i.hasNext()) {
+            int scale = c.compare(current,maks);
+            switch (scale){
+
+                case 1:
+                    maks = current;
+                    //current større enn maks, så vi må flytte denne noden til hale
+                case -1:
+                    //current mindre enn maks
+                    if(c.compare(previous,current)==1) //Sjekker om current er mindre enn den foran
+                default:
+
+
+            }
+
+            if (c.compare(current,maks) >= 1){
+                // Current er større enn maks og skal sendes til hale
+            }
+            else if ()
+
+
+
+            }
+
+
+
+    }
+
+
+
+
+//        for(Node<T> current = liste.hent(0); current != null; current = current.next)
+//        {
+//            swap(current, findMinimumNode(current));
+//        }
+//        return head;
+//        }
 
 
 
