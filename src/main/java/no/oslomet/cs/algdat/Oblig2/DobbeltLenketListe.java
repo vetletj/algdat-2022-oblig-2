@@ -460,7 +460,36 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            if(fjernOK == false)
+                throw new IllegalStateException("Kan ikke fjerne verdi.");
+            if (iteratorendringer != endringer)
+                throw new ConcurrentModificationException("Kan ikke fjerne verdi.");
+            fjernOK = false; // Kan ikke fjerne samme verdi flere ganger.
+
+            Node<T> x = hode; // Testnode
+
+            if(antall == 1) // Finnes bare en node og denne skal slettes
+                hode = hale = null;
+           else if(denne == null) { // Siste skal fjernes
+                x = hale;
+                hale = hale.forrige;
+                hale.neste = null;
+            }
+           else if(denne.forrige == hode){ // Første skal fjernes
+                x = hode;
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+            else{ // Random node som ikke er hode eller hale skal fjernes
+                x = denne.forrige;
+                x.neste.forrige = x.forrige;
+                x.forrige.neste = x.neste;
+            }
+            antall--;
+            endringer++;
+            iteratorendringer++;
+
+
         }
 
     } // class DobbeltLenketListeIterator
@@ -469,6 +498,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
-} // class DobbeltLenketListe
 
+
+} // class DobbeltLenketListe
 
