@@ -504,66 +504,105 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * @param c     kan f.eks være Comparator.naturalOrder()
      * @param <T>
      */
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-
+    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c)
+    {
+        //throw new UnsupportedOperationException();}
 
         // Tanken er som følger:
         // Lagre unna en maks-verdi:
         // om current < current.forrige -> leggInn i begynnelsen
         // om current > maks-verdi -> leggInn på slutten av listen oppdater maks-verdi
-        Iterator<T> i = liste.iterator();
+        //Iterator<T> i = liste.iterator();
         //System.out.println(liste.antall());
-        T current = i.next();
-        T min = current;
-        T maks = current;
+        //T current = i.next();
+        T min = liste.hent(0);
+        T maks = liste.hent(liste.antall()-1);
         T previous;
-        T temp;
-        String
+        int newToOld;
+        int indexSmallest= 0;
+        int indexLargest = liste.antall()-1;
 
-
-        while (i.hasNext()) {
-            int scale = c.compare(current,maks);
-
-            switch (scale)
-            {
-
-                case 1:             // current større enn maks, så vi må flytte denne noden til hale,
-                                    // ... men å flytte en node er veldig kostbart så hva med å mellomlagre verdien i hale
-                                    // og endre verdiene og ikke noden?
-                    previous = current;
-                    temp = liste.oppdater(liste.antall()-1,current); // setter inn current bakerst, og lagrer bakerstverdien som den nye som skal behandles.
-                    maks = current; // Setter ny maksverdi for settet.
-                    current = temp; // verdien som lå sist i listen er den verdien som nå blir behandlet neste gang.
-                    break;
-                case -1:            //current er mindre enn maks: Sjekker om current er mindre enn den foran
-
-                    //current mindre enn maks
-                    if(c.compare(previous,current)==1)
-                    {
-                        min = current;
-
-                    }
-                    previous = current;
-                case 0:
-                    break;
+        // prøver noe nytt
+       //
+        // Iterating over collection 'c' using iterator
+        int indexToSort = 0;
+        for (T toSort : liste) {
+            indexToSort++;              // Om vi finner noe gull ligger den på index...
+            int indexOriginal = 0;
+            for (T original : liste) {
+                indexOriginal++;        // Om vi finner noe gull ligger den på index...
+                newToOld = c.compare(toSort,original);
+                switch (newToOld)
+                {
+                    case -1:            // Smaller : The item to be sorted is less than the item in original list.
+                        indexSmallest = indexOriginal;
+                        break;
+                    case 1:             // Greater : The item to be sorted is greater than the item in original list.
+                        indexLargest = indexOriginal;
+                        break;
+                    default:            // Equal : else it is equal (I hope)
+                }
             }
-
-            current = i.next();
-
-            }
-
-            if (c.compare(current,maks) >= 1){
-                // Current er større enn maks og skal sendes til hale
-            }
-            else if ()
-
-
-
-            }
-
-
-
+        }
     }
+
+        //
+
+
+//        while (i.hasNext()) {
+//            int scale = c.compare(current,maks);
+//
+//            switch (scale)
+//            {
+//
+//                case 1:             // current større enn maks, så vi må flytte denne noden til hale,
+//                                    // ... men å flytte en node er veldig kostbart så hva med å mellomlagre verdien i hale
+//                                    // og endre verdiene og ikke noden?
+//                    previous = current;
+//                    maks = current; // Setter ny maksverdi for settet.
+//                    current = liste.oppdater(liste.antall()-1,current); // setter inn current bakerst, og lagrer bakerstverdien som den nye som skal behandles.
+//
+//                                     // verdien som lå sist i listen er den verdien som nå blir behandlet neste gang.
+//                    break;
+//                case -1:            //current er mindre enn maks: Sjekker om current er mindre enn den foran
+//
+//                    //current mindre enn maks
+//                    previous = current;
+//                    if(c.compare(previous,current)==1)
+//                    {
+//                        if (c.compare(min,current)==1)
+//                        {
+//                            min = current;
+//                            current = liste.oppdater(0,current);
+//                        }
+//                        else
+//                        {
+//
+//
+//                        }
+//
+//                    }
+//                    previous = current;
+//                case 0:
+//                    break;
+//            }
+//
+//            current = i.next();
+//
+//            }
+//
+//            if (c.compare(current,maks) >= 1){
+//                // Current er større enn maks og skal sendes til hale
+//            }
+//            else if ()
+//
+//
+//
+//            }
+//
+//
+
+
 
 
 
