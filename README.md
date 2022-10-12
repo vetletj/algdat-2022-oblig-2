@@ -85,9 +85,22 @@ Lagre hva som er neste noder (om den finnes),
 så sletter vi alt i current før vi setter oss i neste og peker fremover igjen.
 Om neste ikke finnes setter vi hale = hode = null for å slette siste spor og oppdaterer variablene endringer og antall.
 
-```diff
-- Her venter jeg på en metode fra en annen oppgave for å teste alternativ nullstilling
-```
+For å gjøre speed test installerte jeg Spot Profiler-pluginen til intelliJ:
+long start = System.nanoTime();
+liste.nullstill();
+long end = System.nanoTime();
+System.out.println("time wasted: " + (end - start));
+En liste på f.eks 48 items tok i snitt 9µs ved bruk av metoden fjern(0) (kodet i oppgave 6)
+Samme lengde liste tok i snitt 4,2µs
+Resultat:
+listelengde | måte 1 (µs) | måte 2 Fjern(0) (µs)** | størrelsesforhold
+--- | --- | --- | ---
+48 | 4,2 | 9 | 2,14
+96 | 5,5 | 15 |2,73
+192 | 8,5 | 25,5 | 3,00
+384 | 14 | 51 |3,64
+
+Tydelig at vi ikke skal bruke den fjern-metoden vi har her, men utelukker ikke at andre metoder er bedre.
 
 ### Oppgave 8
 I oppgave 8 a, b & d har jeg egentlig bare fulgt oppgavebeskrivelsene steg for steg. I deloppgave c satt jeg først denne noden til hode og anvende deretter en for-løkke
