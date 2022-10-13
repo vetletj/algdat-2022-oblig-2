@@ -29,6 +29,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
     }
 
+
     // instansvariabler
     private Node<T> hode;          // peker til den første i listen
     private Node<T> hale;          // peker til den siste i listen
@@ -112,6 +113,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new IllegalArgumentException
                     ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
     }
+
 
 
     public Liste<T> subliste(int fra, int til) {
@@ -234,7 +236,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
     }
 
-    public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med hent
+    public T hent(int indeks, boolean toggle)  // Lagde en versjon hvor vi kan sende inn variabelen til indeksKontroll sammen med leggInn
     {
         indeksKontroll(indeks, toggle);        // sjekker index-range hvor til er tillatt = antall.
         return finnNode(indeks).verdi;         // Returnerer aktuell nodeverdi
@@ -365,6 +367,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         endringer++;
         antall = 0;
     }
+    // Alternativ versjon under som viste seg å være betydelig tregere:
+    //public void nullstill()
+    //{
+    //    Node<T> current = hode;
+    //    Node<T> temp;
+//
+    //    while (current.neste != null)
+    //    {
+    //        temp = current.neste;
+    //        fjern(0);
+    //        current = temp;
+    //    }
+    //    hode = hale = null;
+    //    endringer++;
+    //    antall--;
+//
+    //}
+
+
 
 
     @Override
@@ -423,7 +444,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private boolean fjernOK;
         private int iteratorendringer;
 
-        private DobbeltLenketListeIterator() {
+        private DobbeltLenketListeIterator() {  // DENNE KONSTRUKTØREN ER FERDIGKODET I OPPGAVEN OG SKAL IKKE ENDRES
             denne = hode;     // p starter på den første i listen
             fjernOK = false;  // blir sann når next() kalles
             iteratorendringer = endringer;  // teller endringer
@@ -441,7 +462,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             //throw new UnsupportedOperationException();
         }
 
-        @Override
+        @Override                   // DENNE ER FERDIGKODET I OPPGAVEN OG SKAL IKKE ENDRES
         public boolean hasNext() {
             return denne != null;
         }
@@ -497,11 +518,30 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     } // class DobbeltLenketListeIterator
 
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
+
+    /**
+     *
+     * @param liste kan f.eks være DobbeltLenketListe<> eller EnkeltLenketListe<> etc.
+     * @param c     kan f.eks være Comparator.naturalOrder()
+     * @param <T>
+     */
+    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) { // prøver å anvende bubble sort - tatt insprasjon fra kode på nett
+        if (liste.tom()) return; // Unntak for tom liste
+        boolean byttetVerdi = true; // variable for å vite når vi har gått igjennom hele listen uten at bytte var nødvendig
+
+        while (byttetVerdi) {
+            byttetVerdi = false; // Setter til false tilfelle det ikke blir noe bytte --> går ut av while-løkke ved neste itrasjon
+            for (int i = 0; i < liste.antall() - 1; i++) {
+                // Anvender compare metoden fra comarator interface, usikker på akkurat hvordan metoden fungerer men etter litt testing virker det som at
+                // den returnerer -1 hvis verdi på indeks+1 er mindre en indeks --> blir bytte på de to plassene (hadde satt pris på tilbakemelding hvis dette ikke stemmer)
+                if ((c.compare(liste.hent(i+1), liste.hent(i))) < 0) {
+                    byttetVerdi = true; // Settes høy hvis det ble utført bytte
+                    T tempVerdi = liste.hent(i); // Setter midlertidig verdi til verdi på indeks i
+                    liste.oppdater(i, liste.hent(i+1)); // Endrer verdi på indeks i til verdi på indeks i+1
+                    liste.oppdater(i+1, tempVerdi); // Endrer verdi på indeks i+1 til verdi på indeks i
+                }
+            }
+        }
     }
-
-
-
 } // class DobbeltLenketListe
 
