@@ -525,35 +525,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * @param c     kan f.eks være Comparator.naturalOrder()
      * @param <T>
      */
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) { // Kode funnet på nett - kommentert så godt det lar seg gjøre
+    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) { // prøver å anvende bubble sort - tatt insprasjon fra kode på nett
         if (liste.tom()) return; // Unntak for tom liste
+        boolean byttetVerdi = true; // variable for å vite når vi har gått igjennom hele listen uten at bytte var nødvendig
 
-        // Utgangspunkt i oblig 1 - quicksort
-        T temp_swap;
-        T pivot = liste.hent(liste.antall() - 1); // Velger pivot til å være siste element i array som i forelesningsvideo
-        int leftP = 0;
-        int rightP = liste.antall() - 1;
-        T leftPointer = liste.hent(leftP);
-        T rightPointer = liste.hent(rightP);
-
-
-        while (leftP < rightP) { // <=> (leftPointer < rightPointer)
-
-            //      (a[leftPointer] <= pivot && leftPointer < rightPointer)
-            while (c.compare(leftPointer, pivot) <= 0 && c.compare(leftPointer, rightPointer) < 0) { //Leter etter element som er større en pivot
-                leftP++; // inkrementerer fram til vi finner et element som er større en pivot, når vi finner det vil a[leftPointer] peke på den verdien
+        while (byttetVerdi) {
+            byttetVerdi = false; // Setter til false tilfelle det ikke blir noe bytte --> går ut av while-løkke ved neste itrasjon
+            for (int i = 0; i < liste.antall() - 1; i++) {
+                // Anvender compare metoden fra comarator interface, usikker på akkurat hvordan metoden fungerer men etter litt testing virker det som at
+                // den returnerer -1 hvis verdi på indeks+1 er mindre en indeks --> blir bytte på de to plassene (hadde satt pris på tilbakemelding hvis dette ikke stemmer)
+                if ((c.compare(liste.hent(i+1), liste.hent(i))) < 0) {
+                    byttetVerdi = true; // Settes høy hvis det ble utført bytte
+                    T tempVerdi = liste.hent(i); // Setter midlertidig verdi til verdi på indeks i
+                    liste.oppdater(i, liste.hent(i+1)); // Endrer verdi på indeks i til verdi på indeks i+1
+                    liste.oppdater(i+1, tempVerdi); // Endrer verdi på indeks i+1 til verdi på indeks i
+                }
             }
-            //      (a[rightPointer] >= pivot && leftPointer < rightPointer)
-            while (c.compare(rightPointer, pivot) >= 0 && c.compare(leftPointer, rightPointer) < 0) { // Leter etter element i array som er mindre en pivot
-                rightP--;
-            }
-            // Bytter plass på leftPointer og rightPointer
-            if (leftP != rightP) {
-                temp_swap = liste.hent(leftP);
-                liste.oppdater(leftP, liste.hent(rightP));
-                liste.oppdater(rightP, temp_swap);
-            } else
-                break;
         }
     }
 } // class DobbeltLenketListe
